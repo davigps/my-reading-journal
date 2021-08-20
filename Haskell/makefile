@@ -8,4 +8,4 @@ run: clean build
 	$(BUILD_DIR)/Main
 
 clean:
-	rm -rf $(BUILD_DIR) ./Main
+	rm -rf $(BUILD_DIR) ./Main ./dist ./dist-newstyle

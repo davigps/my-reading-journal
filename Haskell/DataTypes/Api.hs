@@ -5,3 +5,5 @@ data BookApi = BookApi
     subject :: [String],
     author_name :: String
   }
+
+newtype SearchResponse = SearchResponse {docs :: [BookApi]}

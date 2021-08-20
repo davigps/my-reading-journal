@@ -1,4 +1,5 @@
 build/
+dist-newstyle/
 dist/
 *.o
 *.hi
