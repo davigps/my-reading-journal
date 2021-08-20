@@ -6,7 +6,7 @@ import Utils.Screen
 mainMenuDisplay :: IO String
 mainMenuDisplay = do
   line <-
-    putOnScreen
+    putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\
       \a) Adicionar livro\nb) Editar livro\nc) Listar livros\nd) Excluir livro\n\
       \Sua opção: "
