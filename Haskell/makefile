@@ -4,7 +4,7 @@ build:
 	ghc --make Main.hs -odir $(BUILD_DIR) -hidir $(BUILD_DIR)
 	mv ./Main $(BUILD_DIR)
 
-run: build
+run: clean build
 	$(BUILD_DIR)/Main
 
 clean:

@@ -1,5 +1,12 @@
+import Screens.Main
 import Utils.Screen
 
+loop :: IO String -> IO ()
+loop screen = do
+  let nextScreen = screen
+  stringScreen <- nextScreen
+  putStr stringScreen
+  if null stringScreen then return () else loop nextScreen
+
 main = do
-  answer <- putOnScreen "=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n"
-  print answer
+  loop mainMenuDisplay
