@@ -1,8 +1,6 @@
 module Utils.Screen where
 
-putOnScreen :: String -> IO Int
+putOnScreen :: String -> IO String
 putOnScreen output = do
   putStr output
-  line <- getLine
-  let answer = read line :: Int
-  return answer
+  getLine
