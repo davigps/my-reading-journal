@@ -38,7 +38,6 @@ editBookDisplay = do
   if line == "v"
     then return ""
     else do
-      --Nota e Descrição
       nota <- putOnScreen "Digite a nova nota: "
       descricao <- putOnScreen "Digite a nova descrição: "
       --editBook line
