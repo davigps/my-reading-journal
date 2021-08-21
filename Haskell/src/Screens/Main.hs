@@ -10,7 +10,7 @@ mainMenuDisplay = do
   let currentGoal = 2
   let currentTarget = 10
 
-  line <- putOnScreen 
+  line <- putOnScreenCls 
     ("\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\n" ++
       "Meta: " ++ 
       show currentGoal ++ 
