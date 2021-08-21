@@ -30,13 +30,12 @@ editBookDisplay :: IO String
 editBookDisplay = do
   line <-
     putOnScreenCls
-      "\n=-=-=-=-=-=-=-=-=-=\nEditar livro\n=-=-=-=-=-=-=-=-=-=\n \
-      \ Digite o nome do livro que deseja editar ou 'v' para voltar:"
+      "\n=-=-=-=-=-=-=-=-=-=\nEditar livro\n=-=-=-=-=-=-=-=-=-=\n\
+      \Digite o nome do livro que deseja editar ou 'v' para voltar:"
 
   if line == "v"
     then return ""
     else do
-      --Nota e Descrição
       nota <- putOnScreen "Digite a nova nota: "
       descricao <- putOnScreen "Digite a nova descrição: "
       --editBook line

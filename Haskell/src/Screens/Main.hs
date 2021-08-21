@@ -24,18 +24,10 @@ mainMenuDisplay = do
       \5) Editar meta\n\n\
       \6) Sair\n\n\n" ++
       "Sua opção: ")
-
   mainMenuOptions line
 
 mainMenuOptions :: String -> IO String
 mainMenuOptions option
-<<<<<<< Updated upstream
-  | option == "a" = addBookDisplay
-  | option == "b" = editBookDisplay
-  | option == "c" = seeBooksDisplay
-  | option == "d" = delBookDisplay
-  | otherwise = exitSuccess
-=======
   | option == "1" = addBookDisplay
   | option == "2" = editBookDisplay
   | option == "3" = seeBooksDisplay
@@ -45,4 +37,3 @@ mainMenuOptions option
   | otherwise = do
     putOnScreen "Opção invalida. Aperte enter para continuar."
     mainMenuDisplay
->>>>>>> Stashed changes
