@@ -1,5 +1,7 @@
 module Screens.Books where
 
+import Utils.Screen
+
 addBookDisplay :: IO String
 addBookDisplay = do
   return
@@ -23,7 +25,14 @@ seeBooksDisplay = do
 
 delBookDisplay :: IO String
 delBookDisplay = do
-  return
-    "\n=-=-=-=-=-=-=-=-=-=\nExcluir livro\n=-=-=-=-=-=-=-=-=-=\n \
-    \a) Adicionar livro\nb) Editar livro\nc) Listar livros\nd) Excluir livro\n \
-    \Sua opção: "
+  line <-
+    putOnScreenCls
+      "\n=-=-=-=-=-=-=-=-=-=\nExcluir livro\n=-=-=-=-=-=-=-=-=-=\n \
+      \Digite o nome do livro que deseja excluir ou 'v' para voltar:"
+
+  if line == "v"
+    then return ""
+    else do
+      --deleteBook line
+      putOnScreen "Seu livro foi deletado com sucesso! (Aperte Enter para continuar)"
+      return ""

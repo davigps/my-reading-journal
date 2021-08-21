@@ -2,6 +2,7 @@ module Screens.Main where
 
 import DataTypes.Api
 import Screens.Books
+import System.Exit
 import Utils.Screen
 
 mainMenuDisplay :: IO String
@@ -19,8 +20,4 @@ mainMenuOptions option
   | option == "b" = editBookDisplay
   | option == "c" = seeBooksDisplay
   | option == "d" = delBookDisplay
-  | otherwise = exitMenuDisplay
-
-exitMenuDisplay :: IO String
-exitMenuDisplay = do
-  return ""
+  | otherwise = exitSuccess

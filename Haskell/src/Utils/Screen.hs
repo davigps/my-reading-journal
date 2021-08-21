@@ -9,10 +9,10 @@ clearScreen =
 putOnScreenCls :: String -> IO String
 putOnScreenCls output = do
   clearScreen
-  putStr output
+  putStrLn output
   getLine
 
 putOnScreen :: String -> IO String
 putOnScreen output = do
-  putStr output
+  putStrLn output
   getLine
