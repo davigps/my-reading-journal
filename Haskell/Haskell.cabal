@@ -18,6 +18,7 @@ build-type:     Simple
 extra-source-files:
     README.md
     ChangeLog.md
+data-dir:       data
 
 source-repository head
   type: git
@@ -26,10 +27,12 @@ source-repository head
 library
   exposed-modules:
       DataTypes.Api
+      DataTypes.Application
       Screens.Books
       Screens.Main
       Screens.SearchBook
       Utils.Api
+      Utils.Files
       Utils.Screen
   other-modules:
       Paths_Haskell
@@ -39,7 +42,9 @@ library
       HTTP
     , aeson
     , base >=4.7 && <5
+    , bytestring
     , process
+    , time
   default-language: Haskell2010
 
 executable Haskell-exe
@@ -52,5 +57,7 @@ executable Haskell-exe
     , Haskell
     , aeson
     , base >=4.7 && <5
+    , bytestring
     , process
+    , time
   default-language: Haskell2010

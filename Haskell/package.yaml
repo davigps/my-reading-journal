@@ -5,6 +5,7 @@ license: BSD3
 author: "Author name here"
 maintainer: "example@example.com"
 copyright: "2021 Author name here"
+data-dir: data
 
 extra-source-files:
   - README.md
@@ -24,6 +25,8 @@ dependencies:
   - aeson
   - HTTP
   - process
+  - bytestring
+  - time
 
 library:
   source-dirs: src

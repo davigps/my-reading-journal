@@ -10,7 +10,7 @@ data BookApi = BookApi
     subject :: [String],
     author_name :: [String]
   }
-  deriving (Generic, Show)
+  deriving (Generic)
 
 newtype SearchResponse = SearchResponse {docs :: [BookApi]}
 
