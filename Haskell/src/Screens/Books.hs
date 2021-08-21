@@ -11,10 +11,21 @@ addBookDisplay = do
 
 editBookDisplay :: IO String
 editBookDisplay = do
-  return
-    "\n=-=-=-=-=-=-=-=-=-=\nEditar livro\n=-=-=-=-=-=-=-=-=-=\n \
-    \a) Adicionar livro\nb) Editar livro\nc) Listar livros\nd) Excluir livro\n \
-    \Sua opção: "
+  line <-
+    putOnScreenCls
+      "\n=-=-=-=-=-=-=-=-=-=\nEditar livro\n=-=-=-=-=-=-=-=-=-=\n \
+      \ Digite o nome do livro que deseja editar ou 'v' para voltar:"
+
+  if line == "v"
+    then return ""
+    else do
+      --Nota e Descrição
+      nota <- putOnScreen "Digite a nova nota: "
+      descricao <- putOnScreen "Digite a nova descrição: "
+      --editBook line
+
+      putOnScreen "Seu livro foi editado com sucesso! (Aperte Enter para continuar)"
+      return ""
 
 seeBooksDisplay :: IO String
 seeBooksDisplay = do
