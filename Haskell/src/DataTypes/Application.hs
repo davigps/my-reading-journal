@@ -15,6 +15,23 @@ data Book = Book
   }
   deriving (Eq, Generic)
 
+instance Show Book where
+  show (Book title subject author_name rate description) =
+    "Title: "
+      ++ title
+      ++ "\n\
+         \Subjects: "
+      ++ show subject
+      ++ "\n\
+         \Author's name: "
+      ++ show author_name
+      ++ "\n\
+         \Rate: "
+      ++ show rate
+      ++ "\n\
+         \Description: "
+      ++ description
+
 instance ToJSON Book where
   toEncoding = genericToEncoding defaultOptions
 

@@ -1,0 +1,15 @@
+[
+  { 
+    "title": "Harry Potter",
+    "subject": [
+      "Fiction",
+      "Magic"
+    ],
+    "author_name": [
+      "João",
+      "Maria"
+    ],
+    "rate": 10,
+    "description": "djaiodjwaidowajdowijdwao"
+  }
+]

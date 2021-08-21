@@ -1,6 +1,7 @@
 module Screens.Books where
 
 import Utils.Api
+import Utils.Files
 import Utils.Screen
 
 addBookDisplay :: IO String
@@ -63,8 +64,9 @@ delBookDisplay = do
     then return ""
     else do
       --deleteBook line
-      response <- getApi "http://openlibrary.org/search.json?q=the+lord+of+the+rings&page=1&limit=2"
-      putStrLn response
+      -- response <- getApi "http://openlibrary.org/search.json?q=the+lord+of+the+rings&page=1&limit=2"
+      -- putStrLn response
+
       putOnScreen "Seu livro foi deletado com sucesso! (Aperte Enter para continuar)"
       return ""
 
