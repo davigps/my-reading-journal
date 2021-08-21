@@ -10,7 +10,7 @@ mainMenuDisplay = do
   line <-
     putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\
-      \a) Adicionar livro\nb) Editar livro\nc) Listar livros\nd) Excluir livro\n\
+      \a) Adicionar livro\nb) Editar livro\nc) Listar livros\nd) Excluir livro\ne) Sair\n\
       \Sua opção: "
   mainMenuOptions line
 
@@ -20,4 +20,7 @@ mainMenuOptions option
   | option == "b" = editBookDisplay
   | option == "c" = seeBooksDisplay
   | option == "d" = delBookDisplay
-  | otherwise = exitSuccess
+  | option == "e" = exitSuccess
+  | otherwise = do
+    putOnScreen "Opção invalida. Aperte enter para continuar."
+    mainMenuDisplay
