@@ -25,9 +25,7 @@ addBookDisplay = do
 
       putOnScreen "Seu livro foi adicionado com sucesso! (Aperte Enter para continuar)"
       return ""
-
-
-
+      
 editBookDisplay :: IO String
 editBookDisplay = do
   line <-
@@ -56,7 +54,7 @@ delBookDisplay :: IO String
 delBookDisplay = do
   line <-
     putOnScreenCls
-      "\n=-=-=-=-=-=-=-=-=-=\nExcluir livro\n=-=-=-=-=-=-=-=-=-=\n \
+      "\n=-=-=-=-=-=-=-=-=-=\nExcluir livro\n=-=-=-=-=-=-=-=-=-=\n\
       \Digite o nome do livro que deseja excluir ou 'v' para voltar:"
 
   if line == "v"
@@ -64,4 +62,17 @@ delBookDisplay = do
     else do
       --deleteBook line
       putOnScreen "Seu livro foi deletado com sucesso! (Aperte Enter para continuar)"
+      return ""
+
+editBookGoalDisplay :: IO String
+editBookGoalDisplay = do
+  line <- 
+    putOnScreenCls
+      "\n=-=-=-=-=-=-=-=-=-=\nEditar meta\n=-=-=-=-=-=-=-=-=-=\n\
+      \Digite a nova meta ou 'v' para voltar:"
+  if line == "v"
+    then return ""
+    else do
+      -- atualizar a nova meta
+      putOnScreen "Sua meta foi alterada com sucesso! (Aperte Enter para continuar)"
       return ""
