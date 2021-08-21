@@ -19,6 +19,6 @@ executable my-reading-journal
   main-is:             Main.hs
   -- other-modules:
   -- other-extensions:
-  build-depends:       base >=4.14 && <4.15, process >=1.6 && <1.7, aeson, http-conduit, HTTP
+  build-depends:       base, process >=1.6 && <1.7, aeson, http-conduit, HTTP
   -- hs-source-dirs:
   default-language:    Haskell2010
