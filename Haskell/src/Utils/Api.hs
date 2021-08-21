@@ -1,6 +1,5 @@
 module Utils.Api where
 
-import Data.Aeson
 import DataTypes.Api
 import Network.HTTP
 
