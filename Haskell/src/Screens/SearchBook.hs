@@ -32,8 +32,8 @@ searchBookOptions books bookTitle page option
   | option == "n" = searchBookDisplay bookTitle (page + 1)
   | option == "p" = searchBookDisplay bookTitle (page - 1)
   | otherwise = do
-    let optionNumber = digitToInt (head option) - 1
-    enterDetailsDisplay (books !! optionNumber)
+    let optionNumber = read option :: Int
+    enterDetailsDisplay (books !! (optionNumber - 1))
 
 printBookApis :: [BookApi] -> Int -> IO ()
 printBookApis [] index = return ()
@@ -59,7 +59,7 @@ enterDetailsDisplay bookApi = do
         (title bookApi)
         (subject bookApi)
         (author_name bookApi)
-        (digitToInt (head rate))
+        (read rate :: Int)
         description
     )
 
