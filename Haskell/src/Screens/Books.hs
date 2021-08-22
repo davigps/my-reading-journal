@@ -43,10 +43,14 @@ seeBooksDisplay = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
   books <- indexBooks
-  printBooks books 1
-
-  putOnScreen "\n\n(Press ENTER to continue)"
-  return ""
+  if books /= []
+    then do
+      printBooks books 1
+      putOnScreen "\n\n(Press ENTER to continue)"
+      return ""
+    else do
+      putOnScreen "There are no books here. (Press ENTER to continue)"
+      return ""
 
 delBookDisplay :: IO String
 delBookDisplay = do
@@ -58,9 +62,14 @@ delBookDisplay = do
   if line == "v"
     then return ""
     else do
-      deleteBook line
-      putOnScreen "Your book has been successfully deleted! (Press ENTER to continue)"
-      return ""
+      existBook <- deleteBook line
+      if existBook
+        then do
+          putOnScreen "Your book has been successfully deleted! (Press ENTER to continue)"
+          return ""
+        else do
+          putOnScreen "This book doesn't exist. (Press ENTER to continue)"
+          return ""
 
 editBookGoalDisplay :: IO String
 editBookGoalDisplay = do
