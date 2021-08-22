@@ -22,8 +22,8 @@ addBookDisplay = do
       -- Falta sincronizar com a API. A ideia seria colocar tudo para lowercase e comparar com a API
       -- também em lowercase (ver nome e autor e gênero)
       -- Fazer data
-      nota <- putOnScreen "Enter a rate for the book: "
-      descricao <- putOnScreen "Enter a description for the book: "
+      rate <- putOnScreen "Enter a rate for the book: "
+      description <- putOnScreen "Enter a description for the book: "
 
       putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
       return ""
@@ -38,8 +38,8 @@ editBookDisplay = do
   if line == "v"
     then return ""
     else do
-      nota <- putOnScreen "Enter the new rate: "
-      descricao <- putOnScreen "Enter the new description: "
+      rate <- putOnScreen "Enter the new rate: "
+      description <- putOnScreen "Enter the new description: "
       --editBook line
 
       putOnScreen "Your book has been successfully edited! (Press ENTER to continue)"
