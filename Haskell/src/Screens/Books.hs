@@ -82,3 +82,11 @@ editBookGoalDisplay = do
       -- atualizar a nova meta
       putOnScreen "Sua meta foi alterada com sucesso! (Aperte Enter para continuar)"
       return ""
+
+suggestionDisplay :: IO String
+suggestionDisplay = do
+  putOnScreenCls
+    "\n=-=-=-=-=-=-=-=-=-=\nIndicação de Leitura\n=-=-=-=-=-=-=-=-=-=\n\
+    \Com base nas suas leituras e avaliações: Harry Potter\n\n\
+    \Presione ENTER para continuar"
+  return ""

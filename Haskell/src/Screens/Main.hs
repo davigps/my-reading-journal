@@ -21,8 +21,9 @@ mainMenuDisplay = do
       \2) Editar livro\n\
       \3) Listar livros\n\
       \4) Excluir livro\n\
-      \5) Editar meta\n\n\
-      \6) Sair\n\n\n" ++
+      \5) Ver indicação de leitura\n\
+      \6) Editar meta\n\n\
+      \7) Sair\n\n\n" ++
       "Sua opção: ")
   mainMenuOptions line
 
@@ -32,8 +33,9 @@ mainMenuOptions option
   | option == "2" = editBookDisplay
   | option == "3" = seeBooksDisplay
   | option == "4" = delBookDisplay
-  | option == "5" = editBookGoalDisplay
-  | option == "6" = exitSuccess
+  | option == "5" = suggestionDisplay 
+  | option == "6" = editBookGoalDisplay
+  | option == "7" = exitSuccess
   | otherwise = do
     putOnScreen "Opção invalida. Aperte enter para continuar."
     mainMenuDisplay
