@@ -2,7 +2,6 @@ module Screens.SearchBook where
 
 import Data.Char (digitToInt)
 import DataTypes.Api
-import Network.HTTP.Base (urlEncodeVars)
 import Utils.Api
 import Utils.Screen
 
