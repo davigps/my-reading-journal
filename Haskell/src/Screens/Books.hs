@@ -1,7 +1,7 @@
 module Screens.Books where
 
+import Controllers.Book
 import Screens.SearchBook
-import Utils.Files
 import Utils.Screen
 
 addBookDisplay :: IO String
@@ -10,7 +10,7 @@ addBookDisplay = do
     putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\
       \Enter the name of the book or 'v' to go back:"
-      
+
   if line == "v"
     then return ""
     else searchBookDisplay line 1
@@ -36,7 +36,7 @@ seeBooksDisplay :: IO String
 seeBooksDisplay = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
-  books <- fetchBooks
+  books <- indexBooks
   printBooks books 1
 
   putOnScreen "\n\n(Press ENTER to continue)"

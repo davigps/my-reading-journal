@@ -3,6 +3,9 @@ module Controllers.Book where
 import DataTypes.Application
 import qualified Utils.Files
 
+indexBooks :: IO [Book]
+indexBooks = Utils.Files.fetchBooks
+
 createBook :: String -> [String] -> [String] -> Int -> String -> IO Bool
 createBook bTitle bSuject bAuthor_name bRate bDescription =
   Utils.Files.saveBook
@@ -15,7 +18,7 @@ createBook bTitle bSuject bAuthor_name bRate bDescription =
     )
 
 updateBook :: Book -> Int -> String -> IO Bool
-updateBook book rate description =
+updateBook book newRate newDescription =
   Utils.Files.updateBook (title book) newBook
   where
     newBook =
@@ -23,5 +26,5 @@ updateBook book rate description =
         (title book)
         (subject book)
         (author_name book)
-        rate
-        description
+        newRate
+        newDescription
