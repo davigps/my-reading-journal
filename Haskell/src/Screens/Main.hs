@@ -12,19 +12,19 @@ mainMenuDisplay = do
 
   line <- putOnScreenCls 
     ("\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\n" ++
-      "Meta: " ++ 
+      "Goal: " ++ 
       show currentGoal ++ 
       "/" ++ 
       show currentTarget ++
-      " livros\n\n" ++
-      "1) Adicionar livro\n\
-      \2) Editar livro\n\
-      \3) Listar livros\n\
-      \4) Excluir livro\n\
-      \5) Ver indicação de leitura\n\
-      \6) Editar meta\n\n\
-      \7) Sair\n\n\n" ++
-      "Sua opção: ")
+      " books\n\n" ++
+      "1) Add books\n\
+      \2) Edit books\n\
+      \3) List books\n\
+      \4) Delete books\n\
+      \5) See book suggestion\n\
+      \6) Edit reading goal\n\n\
+      \7) Exit\n\n\n" ++
+      "Your choice: ")
   mainMenuOptions line
 
 mainMenuOptions :: String -> IO String
@@ -37,5 +37,5 @@ mainMenuOptions option
   | option == "6" = editBookGoalDisplay
   | option == "7" = exitSuccess
   | otherwise = do
-    putOnScreen "Opção invalida. Aperte enter para continuar."
+    putOnScreen "Invalid option. Press ENTER to continue."
     mainMenuDisplay
