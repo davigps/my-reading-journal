@@ -26,6 +26,7 @@ source-repository head
 
 library
   exposed-modules:
+      Controllers.Book
       DataTypes.Api
       DataTypes.Application
       DataTypes.Subjects

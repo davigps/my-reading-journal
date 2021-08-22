@@ -10,12 +10,7 @@ addBookDisplay = do
     putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\
       \Enter the name of the book or 'v' to go back:"
-  -- Nome da obra
-  -- Nome do autor
-  -- Data de cadastro
-  -- Gênero
-  -- Nota
-  -- Descrição
+      
   if line == "v"
     then return ""
     else searchBookDisplay line 1
