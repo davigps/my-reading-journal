@@ -39,10 +39,13 @@ editBookDisplay = do
 
 seeBooksDisplay :: IO String
 seeBooksDisplay = do
-  return
-    "\n=-=-=-=-=-=-=-=-=-=\nList books\n=-=-=-=-=-=-=-=-=-=\n \
-    \a) Adicionar livro\nb) Editar livro\nc) Listar livros\nd) Excluir livro\n \
-    \Sua opção: "
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
+  books <- fetchBooks
+  printBooks books 1
+
+  putOnScreen "\n\n(Press ENTER to continue)"
+  return ""
 
 delBookDisplay :: IO String
 delBookDisplay = do

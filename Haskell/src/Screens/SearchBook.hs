@@ -14,7 +14,7 @@ searchBookDisplay bookTitle page = do
   clearScreen
 
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n"
-  printBooks books 1
+  printBookApis books 1
   line <-
     putOnScreen
       "\n\n=-=-=-=-=-=-=-=-=-=\n\
@@ -35,14 +35,14 @@ searchBookOptions books bookTitle page option
     let optionNumber = digitToInt (head option) - 1
     enterDetailsDisplay (books !! optionNumber)
 
-printBooks :: [BookApi] -> Int -> IO ()
-printBooks [] index = return ()
-printBooks (current : rest) index = do
-  putStrLn $ getBookString current index
-  printBooks rest (index + 1)
+printBookApis :: [BookApi] -> Int -> IO ()
+printBookApis [] index = return ()
+printBookApis (current : rest) index = do
+  putStrLn $ getBookApiString current index
+  printBookApis rest (index + 1)
 
-getBookString :: BookApi -> Int -> String
-getBookString book index =
+getBookApiString :: BookApi -> Int -> String
+getBookApiString book index =
   "\n---------------------\n"
     ++ "-- Option "
     ++ show index
