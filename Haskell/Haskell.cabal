@@ -28,6 +28,7 @@ library
   exposed-modules:
       DataTypes.Api
       DataTypes.Application
+      DataTypes.Subjects
       Screens.Books
       Screens.Main
       Screens.SearchBook
