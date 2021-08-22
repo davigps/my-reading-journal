@@ -1,6 +1,7 @@
 module Screens.Books where
 
 import Controllers.Book
+import DataTypes.Application
 import Screens.SearchBook
 import Utils.Screen
 
@@ -22,12 +23,17 @@ editBookDisplay = do
       "\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n\
       \Enter the name of the book you want to edit or 'v' to go back:"
 
+  (Just book) <- readBook line
+
   if line == "v"
     then return ""
     else do
-      rate <- putOnScreen "Enter the new rate: "
-      description <- putOnScreen "Enter the new description: "
-      --editBook line
+      newRate <- putOnScreen "Enter the new rate: "
+      newDescription <- putOnScreen "Enter the new description: "
+
+      let rateInt = read newRate :: Int
+      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription
+      updateBook line newBook
 
       putOnScreen "Your book has been successfully edited! (Press ENTER to continue)"
       return ""

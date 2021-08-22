@@ -34,7 +34,6 @@ library
       Screens.Main
       Screens.SearchBook
       Utils.Api
-      Utils.Files
       Utils.Screen
   other-modules:
       Paths_Haskell

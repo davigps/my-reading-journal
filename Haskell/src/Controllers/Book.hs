@@ -22,6 +22,14 @@ createBook newBook = do
     then do BL.writeFile booksJSON $ encode (newBook : allBooks); return True
     else return False
 
+readBook :: String -> IO (Maybe Book)
+readBook bookTitle = do
+  allBooks <- indexBooks
+  let corresponding = filter (\book -> title book == bookTitle) allBooks
+  if null corresponding
+    then return Nothing
+    else return $ Just (head corresponding)
+
 updateBook :: String -> Book -> IO Bool
 updateBook bookTitle newBook = do
   deleteBook bookTitle
