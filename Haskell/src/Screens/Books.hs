@@ -58,6 +58,7 @@ delBookDisplay = do
   if line == "v"
     then return ""
     else do
+      deleteBook line
       putOnScreen "Your book has been successfully deleted! (Press ENTER to continue)"
       return ""
 
