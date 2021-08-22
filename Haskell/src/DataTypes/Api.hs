@@ -10,11 +10,28 @@ data BookApi = BookApi
     subject :: [String],
     author_name :: [String]
   }
-  deriving (Generic)
+  deriving (Eq, Generic)
 
-newtype SearchResponse = SearchResponse {docs :: [BookApi]}
+instance Show BookApi where
+  show (BookApi title subject author_name) =
+    "Title: "
+      ++ title
+      ++ "\n\
+         \Subjects: "
+      ++ show subject
+      ++ "\n\
+         \Author's name: "
+      ++ show author_name
 
 instance ToJSON BookApi where
   toEncoding = genericToEncoding defaultOptions
 
 instance FromJSON BookApi
+
+newtype SearchResponse = SearchResponse {docs :: [BookApi]}
+  deriving (Eq, Generic)
+
+instance ToJSON SearchResponse where
+  toEncoding = genericToEncoding defaultOptions
+
+instance FromJSON SearchResponse
