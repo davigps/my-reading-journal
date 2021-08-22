@@ -10,7 +10,6 @@ addBookDisplay = do
     putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\
       \Enter the name of the book or 'v' to go back:"
-  searchBookDisplay line 1
   -- Nome da obra
   -- Nome do autor
   -- Data de cadastro
@@ -19,15 +18,7 @@ addBookDisplay = do
   -- Descrição
   if line == "v"
     then return ""
-    else do
-      -- Falta sincronizar com a API. A ideia seria colocar tudo para lowercase e comparar com a API
-      -- também em lowercase (ver nome e autor e gênero)
-      -- Fazer data
-      rate <- putOnScreen "Enter a rate for the book: "
-      description <- putOnScreen "Enter a description for the book: "
-
-      putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
-      return ""
+    else searchBookDisplay line 1
 
 editBookDisplay :: IO String
 editBookDisplay = do
