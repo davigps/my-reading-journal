@@ -52,10 +52,6 @@ delBookDisplay = do
   if line == "v"
     then return ""
     else do
-      --deleteBook line
-      -- response <- getApi "http://openlibrary.org/search.json?q=the+lord+of+the+rings&page=1&limit=2"
-      -- putStrLn response
-
       putOnScreen "Your book has been successfully deleted! (Press ENTER to continue)"
       return ""
 
