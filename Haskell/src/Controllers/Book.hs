@@ -3,6 +3,7 @@ module Controllers.Book where
 import Data.Aeson
 import qualified Data.ByteString.Lazy as BL
 import DataTypes.Application
+import Data.Char
 
 booksJSON = "data/books.json"
 
@@ -17,7 +18,7 @@ noBooksYet = null <$> indexBooks
 createBook :: Book -> IO Bool
 createBook newBook = do
   allBooks <- indexBooks
-  let correspondingBooks = filter (\book -> title book == title newBook) allBooks
+  let correspondingBooks = filter (\book -> map toLower (title book) == map toLower (title newBook)) allBooks
   if null correspondingBooks
     then do BL.writeFile booksJSON $ encode (newBook : allBooks); return True
     else return False
@@ -25,7 +26,7 @@ createBook newBook = do
 readBook :: String -> IO (Maybe Book)
 readBook bookTitle = do
   allBooks <- indexBooks
-  let corresponding = filter (\book -> title book == bookTitle) allBooks
+  let corresponding = filter (\book -> map toLower (title book) == map toLower bookTitle) allBooks
   if null corresponding
     then return Nothing
     else return $ Just (head corresponding)
@@ -38,7 +39,7 @@ updateBook bookTitle newBook = do
 deleteBook :: String -> IO Bool
 deleteBook bookTitle = do
   allBooks <- indexBooks
-  let removed = filter (\book -> title book /= bookTitle) allBooks
+  let removed = filter (\book -> map toLower (title book) /= map toLower bookTitle) allBooks
   if allBooks /= removed
     then do BL.writeFile booksJSON $ encode removed; return True
     else return False
