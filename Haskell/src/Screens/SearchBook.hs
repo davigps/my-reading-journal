@@ -15,7 +15,7 @@ searchBookDisplay bookTitle page = do
   printBooks books 1
   line <-
     putOnScreen
-      "\n\n\n=-=-=-=-=-=-=-=-=-=\n\
+      "\n\n=-=-=-=-=-=-=-=-=-=\n\
       \Enter the option number (1...5) \n\
       \or 'c' to cancel\n\
       \or 'n' to see next page\n\

@@ -1,7 +1,8 @@
 module Utils.Api where
 
 import Data.Aeson (decode)
-import DataTypes.Api (BookApi, SearchResponse (docs))
+import DataTypes.Api
+import qualified DataTypes.Subjects
 import Network.HTTP.Base (urlEncodeVars)
 import Network.HTTP.Conduit (simpleHttp)
 
@@ -15,4 +16,10 @@ makeRequest bookTitle page =
 searchBook :: String -> Int -> IO [BookApi]
 searchBook bookTitle page = do
   (Just response) <- makeRequest bookTitle page
-  return $ docs response
+  return $ map cleanBook (docs response)
+
+cleanBook :: BookApi -> BookApi
+cleanBook book = BookApi (title book) (cleanSubjects (subject book)) (author_name book)
+
+cleanSubjects :: [String] -> [String]
+cleanSubjects = filter (`elem` DataTypes.Subjects.subjects)
