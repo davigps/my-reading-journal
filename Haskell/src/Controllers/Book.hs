@@ -1,30 +1,36 @@
 module Controllers.Book where
 
+import Data.Aeson
+import qualified Data.ByteString.Lazy as BL
 import DataTypes.Application
-import qualified Utils.Files
+
+booksJSON = "data/books.json"
 
 indexBooks :: IO [Book]
-indexBooks = Utils.Files.fetchBooks
+indexBooks = do
+  (Just allBooks) <- decode <$> BL.readFile booksJSON :: IO (Maybe [Book])
+  return allBooks
 
-createBook :: String -> [String] -> [String] -> Int -> String -> IO Bool
-createBook bTitle bSuject bAuthor_name bRate bDescription =
-  Utils.Files.saveBook
-    ( Book
-        bTitle
-        bSuject
-        bAuthor_name
-        bRate
-        bDescription
-    )
+noBooksYet :: IO Bool
+noBooksYet = null <$> indexBooks
 
-updateBook :: Book -> Int -> String -> IO Bool
-updateBook book newRate newDescription =
-  Utils.Files.updateBook (title book) newBook
-  where
-    newBook =
-      Book
-        (title book)
-        (subject book)
-        (author_name book)
-        newRate
-        newDescription
+createBook :: Book -> IO Bool
+createBook newBook = do
+  allBooks <- indexBooks
+  let correspondingBooks = filter (\book -> title book == title newBook) allBooks
+  if null correspondingBooks
+    then do BL.writeFile booksJSON $ encode (newBook : allBooks); return True
+    else return False
+
+updateBook :: String -> Book -> IO Bool
+updateBook bookTitle newBook = do
+  deleteBook bookTitle
+  createBook newBook
+
+deleteBook :: String -> IO Bool
+deleteBook bookTitle = do
+  allBooks <- indexBooks
+  let removed = filter (\book -> title book /= bookTitle) allBooks
+  if allBooks /= removed
+    then do BL.writeFile booksJSON $ encode removed; return True
+    else return False

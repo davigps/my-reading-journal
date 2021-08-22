@@ -55,11 +55,13 @@ enterDetailsDisplay bookApi = do
   description <- putOnScreen "Enter a description for the book: "
 
   createBook
-    (title bookApi)
-    (subject bookApi)
-    (author_name bookApi)
-    (digitToInt (head rate))
-    description
+    ( DataTypes.Application.Book
+        (title bookApi)
+        (subject bookApi)
+        (author_name bookApi)
+        (digitToInt (head rate))
+        description
+    )
 
   putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
   return ""
