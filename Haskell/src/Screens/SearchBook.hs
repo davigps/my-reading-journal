@@ -2,7 +2,9 @@ module Screens.SearchBook where
 
 import Data.Char (digitToInt)
 import DataTypes.Api
+import qualified DataTypes.Application
 import Utils.Api
+import Utils.Files
 import Utils.Screen
 
 searchBookDisplay :: String -> Int -> IO String
@@ -51,6 +53,15 @@ enterDetailsDisplay :: BookApi -> IO String
 enterDetailsDisplay bookApi = do
   rate <- putOnScreen "Enter a rate for the book: "
   description <- putOnScreen "Enter a description for the book: "
+
+  saveBook
+    ( DataTypes.Application.Book
+        (title bookApi)
+        (subject bookApi)
+        (author_name bookApi)
+        (digitToInt (head rate))
+        description
+    )
 
   putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
   return ""
