@@ -1,5 +1,6 @@
 module Screens.Books where
 
+import Screens.SearchBook
 import Utils.Files
 import Utils.Screen
 
@@ -9,6 +10,7 @@ addBookDisplay = do
     putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nAdicionar livro\n=-=-=-=-=-=-=-=-=-=\n\
       \Digite o nome da obra ou 'v' para voltar:"
+  searchBookDisplay line 1
 
   -- Nome da obra
   -- Nome do autor
