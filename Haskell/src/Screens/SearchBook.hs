@@ -32,7 +32,7 @@ searchBookOptions books bookTitle page option
   | option == "n" = searchBookDisplay bookTitle (page + 1)
   | option == "p" = searchBookDisplay bookTitle (page - 1)
   | otherwise = do
-    let optionNumber = digitToInt $ head option
+    let optionNumber = digitToInt (head option) - 1
     enterDetailsDisplay (books !! optionNumber)
 
 printBooks :: [BookApi] -> Int -> IO ()
