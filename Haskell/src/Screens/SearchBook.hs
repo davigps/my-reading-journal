@@ -9,22 +9,25 @@ import Utils.Screen
 
 searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
-  putStrLn "Loading..."
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nLoading...\n=-=-=-=-=-=-=-=-=-=\n"
   books <- searchBook bookTitle page
   clearScreen
 
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n"
-  printBookApis books 1
-  line <-
-    putOnScreen
-      "\n\n=-=-=-=-=-=-=-=-=-=\n\
-      \Enter the option number (1...5) \n\
-      \or 'c' to cancel\n\
-      \or 'n' to see next page\n\
-      \or 'p' to see previous page\n\
-      \Your choice:"
+  if length books == 0
+    then putOnScreen "Book not found! (Press ENTER to back)" 
+    else do printBookApis books 1
+            line <-
+              putOnScreen
+                "\n\n=-=-=-=-=-=-=-=-=-=\n\
+                \Enter the option number (1...5) \n\
+                \or 'c' to cancel\n\
+                \or 'n' to see next page\n\
+                \or 'p' to see previous page\n\
+                \Your choice:"
 
-  searchBookOptions books bookTitle page line
+            searchBookOptions books bookTitle page line
 
 searchBookOptions :: [BookApi] -> String -> Int -> String -> IO String
 searchBookOptions books bookTitle page option
