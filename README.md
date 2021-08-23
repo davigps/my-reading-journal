@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="MyReadingJournal" title="#My Reading Journal" src="https://user-images.githubusercontent.com/56003521/130467391-c0b6aee2-16e9-4050-814e-10b0ed1cf1cf.png" width="550px" />
+  <img alt="MyReadingJournal" title="#My Reading Journal" src="https://user-images.githubusercontent.com/56003521/130467391-c0b6aee2-16e9-4050-814e-10b0ed1cf1cf.png" width="450px" />
 </h1>
 
 <p align="center">
