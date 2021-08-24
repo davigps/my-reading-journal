@@ -4,18 +4,15 @@ import DataTypes.Api
 import Screens.Books
 import System.Exit
 import Utils.Screen
+import Controllers.Profile
 
 mainMenuDisplay :: IO String
 mainMenuDisplay = do
-  let currentGoal = 2
-  let currentTarget = 10
+  profile <- indexProfile
 
   line <- putOnScreenCls 
     ("\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\n" ++
-      "Goal: " ++ 
-      show currentGoal ++ 
-      "/" ++ 
-      show currentTarget ++
+      show profile ++
       " books\n\n" ++
       "1) Add books\n\
       \2) Edit books\n\

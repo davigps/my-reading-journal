@@ -4,6 +4,8 @@ import Controllers.Book
 import DataTypes.Application
 import Screens.SearchBook
 import Utils.Screen
+import Controllers.Profile
+import DataTypes.Profile
 
 addBookDisplay :: IO String
 addBookDisplay = do
@@ -66,6 +68,7 @@ delBookDisplay = do
       if existBook
         then do
           putOnScreen "Your book has been successfully deleted! (Press ENTER to continue)"
+          updateGoal
           return ""
         else do
           putOnScreen "This book doesn't exist. (Press ENTER to continue)"
@@ -80,7 +83,11 @@ editBookGoalDisplay = do
   if line == "v"
     then return ""
     else do
-      -- atualizar a nova meta
+      let target = read line :: Int
+      books <- indexBooks
+      let goal = length books
+      let newProfile = Profile goal target
+      updateProfile newProfile 
       putOnScreen "Your goal has been successfully changed! (Press ENTER to continue)"
       return ""
 

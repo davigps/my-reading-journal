@@ -6,6 +6,7 @@ import DataTypes.Api
 import qualified DataTypes.Application
 import Utils.Api
 import Utils.Screen
+import Controllers.Profile
 
 searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
@@ -66,5 +67,6 @@ enterDetailsDisplay bookApi = do
         description
     )
 
+  updateGoal
   putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
   return ""
