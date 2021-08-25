@@ -12,12 +12,12 @@ searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nLoading...\n=-=-=-=-=-=-=-=-=-=\n"
-  books <- searchBook bookTitle page
+  (books, totalPages) <- searchBook bookTitle page
   clearScreen
 
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n"
-  if length books == 0
-    then putOnScreen "Book not found! (Press ENTER to back)" 
+  if null books
+    then putOnScreen "Book not found! (Press ENTER to back)"
     else do printBookApis books 1
             line <-
               putOnScreen
@@ -28,18 +28,28 @@ searchBookDisplay bookTitle page = do
                 \or 'p' to see previous page\n\
                 \Your choice:"
 
-            searchBookOptions books bookTitle page line
+            searchBookOptions books totalPages bookTitle page line
 
-searchBookOptions :: [BookApi] -> String -> Int -> String -> IO String
-searchBookOptions books bookTitle page option
+searchBookOptions :: [BookApi] -> Int -> String -> Int -> String -> IO String
+searchBookOptions books totalPages bookTitle page option
   | option == "c" = return ""
-  | option == "n" = searchBookDisplay bookTitle (page + 1)
-  | option == "p" = searchBookDisplay bookTitle (page - 1)
-  | elem (read option :: Int) [1..5] = do
+  | option == "n" = do
+    if page == totalPages
+      then do
+        putOnScreen "Invalid option. (Press ENTER to continue)"
+        searchBookDisplay bookTitle page
+      else searchBookDisplay bookTitle (page + 1)
+  | option == "p" = do
+    if page /= 1
+      then searchBookDisplay bookTitle (page - 1) 
+      else do
+        putOnScreen "Invalid option. (Press ENTER to continue)"
+        searchBookDisplay bookTitle page
+  | (read option :: Int) `elem` [1..length books] = do
     let optionNumber = read option :: Int
     enterDetailsDisplay $ books !! (optionNumber - 1)
-  | otherwise = do 
-    putOnScreen "Option Invalid. (Press ENTER to continue)"
+  | otherwise = do
+    putOnScreen "Invalid option. (Press ENTER to continue)"
     searchBookDisplay bookTitle page
 
 printBookApis :: [BookApi] -> Int -> IO ()

@@ -63,13 +63,13 @@ delBookDisplay = do
 
   line <-
     putOnScreen
-      "\nEscolha uma opção ou digite 'v' to go back:"
+      "\nChoose an option or digit 'v' to go back:"
   
   if line == "v"
     then return ""
     else do
       let optionNumber = read line :: Int
-      if elem optionNumber [1..5] 
+      if elem optionNumber [1..length books] 
         then do
           let bookTitle = title $ books !! (optionNumber-1)
 
@@ -79,7 +79,7 @@ delBookDisplay = do
           updateGoal
           return ""
         else do
-          putOnScreen "Option Invalid! (Press ENTER to continue)"
+          putOnScreen "Invalid option! (Press ENTER to continue)"
           delBookDisplay
 
 editBookGoalDisplay :: IO String
