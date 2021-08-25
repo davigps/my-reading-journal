@@ -1,5 +1,6 @@
 module Utils.Screen where
 
+import DataTypes.Application
 import System.Info
 import System.Process
 
@@ -9,10 +10,24 @@ clearScreen =
 putOnScreenCls :: String -> IO String
 putOnScreenCls output = do
   clearScreen
-  putStr output
+  putStrLn output
   getLine
 
 putOnScreen :: String -> IO String
 putOnScreen output = do
-  putStr output
+  putStrLn output
   getLine
+
+printBooks :: [Book] -> Int -> IO ()
+printBooks [] index = return ()
+printBooks (current : rest) index = do
+  putStrLn $ getBookString current index
+  printBooks rest (index + 1)
+
+getBookString :: Book -> Int -> String
+getBookString book index =
+  "\n---------------------\n"
+    ++ "-- Option "
+    ++ show index
+    ++ "\n"
+    ++ show book
