@@ -24,7 +24,6 @@ editBookDisplay = do
       \Enter the name of the book you want to edit or 'v' to go back:"
 
   (Just book) <- readBook line
-
   if line == "v"
     then return ""
     else do
@@ -54,22 +53,31 @@ seeBooksDisplay = do
 
 delBookDisplay :: IO String
 delBookDisplay = do
-  line <-
-    putOnScreenCls
-      "\n=-=-=-=-=-=-=-=-=-=\nDelete book\n=-=-=-=-=-=-=-=-=-=\n\
-      \Enter the name of the book you want to delete or 'v' to go back:"
+  clearScreen
+  putStrLn
+    "\n=-=-=-=-=-=-=-=-=-=\nDelete book\n=-=-=-=-=-=-=-=-=-=\n"
+  books <- indexBooks
+  printBooks books 1
 
+  line <-
+    putOnScreen
+      "\nEscolha uma opção ou digite 'v' to go back:"
+  
   if line == "v"
     then return ""
     else do
-      existBook <- deleteBook line
-      if existBook
+      let optionNumber = read line :: Int
+      if elem optionNumber [1..5] 
         then do
+          let bookTitle = title $ books !! (optionNumber-1)
+
+          successDelete <- deleteBook bookTitle
+
           putOnScreen "Your book has been successfully deleted! (Press ENTER to continue)"
           return ""
         else do
-          putOnScreen "This book doesn't exist. (Press ENTER to continue)"
-          return ""
+          putOnScreen "Option Invalid! (Press ENTER to continue)"
+          delBookDisplay
 
 editBookGoalDisplay :: IO String
 editBookGoalDisplay = do
