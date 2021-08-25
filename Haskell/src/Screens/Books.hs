@@ -33,7 +33,7 @@ editBookDisplay = do
       newDescription <- putOnScreen "Enter the new description: "
 
       let rateInt = read newRate :: Int
-      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription
+      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription (folder book)
       updateBook line newBook
 
       putOnScreen "Your book has been successfully edited! (Press ENTER to continue)"

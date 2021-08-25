@@ -7,6 +7,7 @@ import qualified DataTypes.Application
 import Utils.Api
 import Utils.Screen
 import Controllers.Profile
+import Screens.Folder
 
 searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
@@ -69,7 +70,10 @@ getBookApiString book index =
 enterDetailsDisplay :: BookApi -> IO String
 enterDetailsDisplay bookApi = do
   rate <- putOnScreen "Enter a rate for the book: "
+  -- Fazer a restrição da nota de 1..10
   description <- putOnScreen "Enter a description for the book: "
+  -- Listar as pastas
+  folder <- enterFolderDisplay
 
   createBook
     ( DataTypes.Application.Book
@@ -78,6 +82,7 @@ enterDetailsDisplay bookApi = do
         (author_name bookApi)
         (read rate :: Int)
         description
+        folder
     )
 
   updateGoal

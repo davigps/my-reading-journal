@@ -33,6 +33,7 @@ library
       DataTypes.Profile
       DataTypes.Subjects
       Screens.Books
+      Screens.Folder
       Screens.Main
       Screens.SearchBook
       Utils.Api
