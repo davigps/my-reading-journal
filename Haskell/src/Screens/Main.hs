@@ -13,7 +13,6 @@ mainMenuDisplay = do
   line <- putOnScreenCls 
     ("\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\n" ++
       show profile ++
-      " books\n\n" ++
       "1) Add books\n\
       \2) Edit books\n\
       \3) List books\n\
