@@ -35,9 +35,12 @@ searchBookOptions books bookTitle page option
   | option == "c" = return ""
   | option == "n" = searchBookDisplay bookTitle (page + 1)
   | option == "p" = searchBookDisplay bookTitle (page - 1)
-  | otherwise = do
+  | elem (read option :: Int) [1..5] = do
     let optionNumber = read option :: Int
-    enterDetailsDisplay (books !! (optionNumber - 1))
+    enterDetailsDisplay $ books !! (optionNumber - 1)
+  | otherwise = do 
+    putOnScreen "Option Invalid. (Press ENTER to continue)"
+    searchBookDisplay bookTitle page
 
 printBookApis :: [BookApi] -> Int -> IO ()
 printBookApis [] index = return ()
