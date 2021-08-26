@@ -1,8 +1,6 @@
 module Screens.Folder where
 
-import Controllers.Book
-import qualified Data.Set as Set
-import DataTypes.Application
+import Utils.Folder
 import Utils.Screen
 
 enterFolderDisplay :: IO String
@@ -37,21 +35,6 @@ enterFolderOptions option folders
     optionNumber = read option :: Int
     foldersLength = length folders
     chooseFolder = folders !! (optionNumber -1)
-
-indexFolders :: IO [String]
-indexFolders = map folder <$> indexBooks
-
-cleanFolders :: [String] -> [String]
-cleanFolders folders = Set.elems $ Set.fromList folders
-
-showFolder :: String -> Int -> IO ()
-showFolder folder index = putStr $ "\n-------------\n" ++ show index ++ ") " ++ folder
-
-printFolders :: [String] -> Int -> IO ()
-printFolders [] n = return ()
-printFolders (current : rest) index = do
-  showFolder current index
-  printFolders rest (index + 1)
 
 createFolderDisplay :: IO String
 createFolderDisplay = putOnScreenCls "\n=-=-=-=-=-=-=-=-=-=\nCreate Folder\n=-=-=-=-=-=-=-=-=-=\nEnter new folder's name: "
