@@ -4,6 +4,7 @@ import Controllers.Book
 import Controllers.Profile
 import DataTypes.Application
 import DataTypes.Profile
+import Screens.Folder
 import Screens.SearchBook
 import Utils.Screen
 
@@ -52,9 +53,11 @@ seeBooksDisplay :: IO String
 seeBooksDisplay = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
-  books <- indexBooks
+  books <- chooseFolderDisplay
   if books /= []
     then do
+      clearScreen
+      putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
       printBooks books 1
       putOnScreen "\n\n(Press ENTER to continue)"
       return ""
