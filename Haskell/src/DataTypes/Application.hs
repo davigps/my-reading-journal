@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module DataTypes.Application where
 
@@ -7,8 +8,7 @@ import Data.Time.Calendar
 import GHC.Generics
 
 data Book = Book
-  { 
-    title :: String,
+  { title :: String,
     subject :: [String],
     author_name :: [String],
     rate :: Int,

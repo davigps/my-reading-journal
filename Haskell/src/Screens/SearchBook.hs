@@ -80,16 +80,21 @@ enterDetailsDisplay bookApi = do
       description <- putOnScreen "Enter a description for the book: "
       folder <- enterFolderDisplay
 
-      createBook
-        ( DataTypes.Application.Book
-            (title bookApi)
-            (subject bookApi)
-            (author_name bookApi)
-            (read rate :: Int)
-            description
-            folder
-        )
+      if null folder
+        then do
+          putOnScreen "You need to choose a folder! (Press ENTER to continue)"
+          return ""
+        else do
+          createBook
+            ( DataTypes.Application.Book
+                (title bookApi)
+                (subject bookApi)
+                (author_name bookApi)
+                (read rate :: Int)
+                description
+                folder
+            )
 
-      updateGoal
-      putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
-      return ""
+          updateGoal
+          putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
+          return ""

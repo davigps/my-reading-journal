@@ -28,7 +28,6 @@ dependencies:
   - process
   - bytestring
   - time
- 
 
 library:
   source-dirs: src
