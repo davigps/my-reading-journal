@@ -47,6 +47,7 @@ library
     , aeson
     , base >=4.7 && <5
     , bytestring
+    , containers
     , http-conduit
     , process
     , time
@@ -63,6 +64,7 @@ executable Haskell-exe
     , aeson
     , base >=4.7 && <5
     , bytestring
+    , containers
     , http-conduit
     , process
     , time

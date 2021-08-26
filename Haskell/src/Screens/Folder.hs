@@ -1,8 +1,7 @@
 module Screens.Folder where
 
 import Controllers.Book
-import Data.List
-import Data.Maybe
+import qualified Data.Set as Set
 import DataTypes.Application
 import Utils.Screen
 
@@ -12,8 +11,9 @@ enterFolderDisplay = do
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nFolders\n=-=-=-=-=-=-=-=-=-=\n"
 
   folders <- indexFolders
-  printFolders folders 1
-  let foldersLength = show $ length folders
+  let foldersSet = cleanFolders folders
+  printFolders foldersSet 1
+  let foldersLength = show $ length foldersSet
 
   let message =
         "\n\n=-=-=-=-=-=-=-=-=-=\n\
@@ -23,7 +23,7 @@ enterFolderDisplay = do
              \or 'a' to add new folder\nYour choice:"
 
   line <- putOnScreen message
-  enterFolderOptions line folders
+  enterFolderOptions line foldersSet
 
 enterFolderOptions :: String -> [String] -> IO String
 enterFolderOptions option folders
@@ -40,6 +40,9 @@ enterFolderOptions option folders
 
 indexFolders :: IO [String]
 indexFolders = map folder <$> indexBooks
+
+cleanFolders :: [String] -> [String]
+cleanFolders folders = Set.elems $ Set.fromList folders
 
 showFolder :: String -> Int -> IO ()
 showFolder folder index = putStr $ "\n-------------\n" ++ show index ++ ") " ++ folder
