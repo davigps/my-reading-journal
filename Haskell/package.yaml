@@ -28,7 +28,7 @@ dependencies:
   - process
   - bytestring
   - time
- 
+  - containers
 
 library:
   source-dirs: src

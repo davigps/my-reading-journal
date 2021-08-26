@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module DataTypes.Application where
 
@@ -11,12 +12,13 @@ data Book = Book
     subject :: [String],
     author_name :: [String],
     rate :: Int,
-    description :: String
+    description :: String,
+    folder :: String
   }
   deriving (Eq, Generic)
 
 instance Show Book where
-  show (Book title subject author_name rate description) =
+  show (Book title subject author_name rate description _) =
     "Title: "
       ++ title
       ++ "\n\
