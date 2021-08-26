@@ -18,3 +18,6 @@ printFolders [] n = return ()
 printFolders (current : rest) index = do
   showFolder current index
   printFolders rest (index + 1)
+
+getFolderBooks :: [Book] -> String -> [Book]
+getFolderBooks books folderName = filter (\book -> folder book == folderName) books
