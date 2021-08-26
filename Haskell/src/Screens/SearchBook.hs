@@ -69,17 +69,23 @@ getBookApiString book index =
 enterDetailsDisplay :: BookApi -> IO String
 enterDetailsDisplay bookApi = do
   rate <- putOnScreen "Enter a rate for the book: "
-  description <- putOnScreen "Enter a description for the book: "
+  let intRate = read rate :: Int
+  if 10 < intRate || intRate < 0
+    then do 
+      putOnScreen "Invalid rate. The rate must be from 0 to 10. (Press ENTER to continue)"
+      enterDetailsDisplay bookApi
+    else do
+      description <- putOnScreen "Enter a description for the book: "
 
-  createBook
-    ( DataTypes.Application.Book
-        (title bookApi)
-        (subject bookApi)
-        (author_name bookApi)
-        (read rate :: Int)
-        description
-    )
+      createBook
+        ( DataTypes.Application.Book
+            (title bookApi)
+            (subject bookApi)
+            (author_name bookApi)
+            (read rate :: Int)
+            description
+        )
 
-  updateGoal
-  putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
-  return ""
+      updateGoal
+      putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
+      return ""

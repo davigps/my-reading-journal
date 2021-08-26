@@ -28,13 +28,22 @@ editBookDisplay = do
   (Just book) <- readBook line
   if line == "v"
     then return ""
+    else enterEditDetails book
+
+enterEditDetails :: Book -> IO String 
+enterEditDetails book = do
+  newRate <- putOnScreen "Enter the new rate: "
+  let intRate = read newRate :: Int
+  if intRate > 10 || intRate < 0
+    then do 
+      putOnScreen "Invalid rate. The rate must be from 0 to 10. (Press ENTER to continue)"
+      enterEditDetails book
     else do
-      newRate <- putOnScreen "Enter the new rate: "
       newDescription <- putOnScreen "Enter the new description: "
 
       let rateInt = read newRate :: Int
       let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription
-      updateBook line newBook
+      updateBook (title book) newBook
 
       putOnScreen "Your book has been successfully edited! (Press ENTER to continue)"
       return ""
@@ -64,12 +73,12 @@ delBookDisplay = do
   line <-
     putOnScreen
       "\nChoose an option or digit 'v' to go back:"
-  
+
   if line == "v"
     then return ""
     else do
       let optionNumber = read line :: Int
-      if elem optionNumber [1..length books] 
+      if optionNumber `elem` [1..length books]
         then do
           let bookTitle = title $ books !! (optionNumber-1)
 
@@ -95,7 +104,7 @@ editBookGoalDisplay = do
       books <- indexBooks
       let goal = length books
       let newProfile = Profile goal target
-      updateProfile newProfile 
+      updateProfile newProfile
       putOnScreen "Your goal has been successfully changed! (Press ENTER to continue)"
       return ""
 
