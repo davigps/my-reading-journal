@@ -4,7 +4,6 @@ import Utils.Screen
 
 enterFolderDisplay :: IO String
 enterFolderDisplay = do
-  putOnScreenCls "\n=-=-=-=-=-=-=-=-=-=\nList Folders\n=-=-=-=-=-=-=-=-=-=\n"
-  -- Listar as pastas
-  line <- putOnScreen "Digite o nome da Pasta: "
+  line <- putOnScreenCls "\n=-=-=-=-=-=-=-=-=-=\nFolders\n=-=-=-=-=-=-=-=-=-=\nDigite o nome da Pasta: "
+  putStrLn "\n"
   return line
