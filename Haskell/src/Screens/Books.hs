@@ -21,15 +21,29 @@ addBookDisplay = do
 
 editBookDisplay :: IO String
 editBookDisplay = do
-  line <-
-    putOnScreenCls
-      "\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n\
-      \Enter the name of the book you want to edit or 'v' to go back:"
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n"
+  books <- indexBooks
+  printBooks books 1
 
-  (Just book) <- readBook line
+  line <-
+    putOnScreen
+      "\nChoose an option or digit 'v' to go back:"
+
+
   if line == "v"
     then return ""
-    else enterEditDetails book
+    else do
+      let optionNumber = read line :: Int
+      if optionNumber `elem` [1 .. length books]
+        then do
+          let bookTitle = title $ books !! (optionNumber -1)
+          (Just book) <- readBook bookTitle
+          enterEditDetails book
+          return ""
+        else do
+          putOnScreen "Invalid option! (Press ENTER to continue)"
+          editBookDisplay
 
 enterEditDetails :: Book -> IO String
 enterEditDetails book = do
@@ -43,7 +57,7 @@ enterEditDetails book = do
       newDescription <- putOnScreen "Enter the new description: "
 
       let rateInt = read newRate :: Int
-      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription (folder book)
+      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription (folder book) (dateNow book)
       updateBook (title book) newBook
 
       putOnScreen "Your book has been successfully edited! (Press ENTER to continue)"

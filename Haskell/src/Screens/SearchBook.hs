@@ -8,6 +8,9 @@ import qualified DataTypes.Application
 import Screens.Folder
 import Utils.Api
 import Utils.Screen
+import Data.Time
+      (FormatTime, formatTime, defaultTimeLocale, utcToLocalTime,
+      getCurrentTimeZone, getCurrentTime)
 
 searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
@@ -80,6 +83,9 @@ enterDetailsDisplay bookApi = do
       description <- putOnScreen "Enter a description for the book: "
       folder <- enterFolderDisplay
 
+      t <- pure utcToLocalTime <*> getCurrentTimeZone <*> getCurrentTime
+      let dateNow = unlines (formats <*> pure t)
+
       if null folder
         then do
           putOnScreen "You need to choose a folder! (Press ENTER to continue)"
@@ -93,8 +99,12 @@ enterDetailsDisplay bookApi = do
                 (read rate :: Int)
                 description
                 folder
+                dateNow
             )
 
           updateGoal
           putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
           return ""
+
+formats :: FormatTime t => [t -> String]
+formats = (formatTime defaultTimeLocale) <$>  ["%d %B, %Y"]

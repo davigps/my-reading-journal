@@ -13,12 +13,13 @@ data Book = Book
     author_name :: [String],
     rate :: Int,
     description :: String,
-    folder :: String
+    folder :: String,
+    dateNow :: String
   }
   deriving (Eq, Generic)
 
 instance Show Book where
-  show (Book title subject author_name rate description _) =
+  show (Book title subject author_name rate description _ dateNow) =
     "Title: "
       ++ title
       ++ "\n\
@@ -33,6 +34,9 @@ instance Show Book where
       ++ "\n\
          \Description: "
       ++ description
+      ++ "\n\
+        \Registration Date: "
+      ++ dateNow
 
 instance ToJSON Book where
   toEncoding = genericToEncoding defaultOptions
