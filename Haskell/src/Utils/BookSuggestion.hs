@@ -21,14 +21,14 @@ getFrequencyItem item (current : rest) =
     then 1 + getFrequencyItem item rest
     else getFrequencyItem item rest
 
-getMostRatedSubject :: [Book] -> String
-getMostRatedSubject books = onlySubjects !! mostRatedIndex
+getBestRatedSubject :: [Book] -> String
+getBestRatedSubject books = onlySubjects !! bestRatedIndex
   where
     allSubjects = map subject books
     onlySubjects = concat allSubjects
     rateList = map (`getSubjectRate` books) onlySubjects
     maybeIndex = elemIndex (maximum rateList) rateList
-    mostRatedIndex = fromMaybe 0 maybeIndex
+    bestRatedIndex = fromMaybe 0 maybeIndex
 
 getSubjectRate :: String -> [Book] -> Int
 getSubjectRate sub books = getTotalSumRate sub books `div` length books
