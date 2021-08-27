@@ -33,5 +33,5 @@ mainMenuOptions option
   | option == "6" = editBookGoalDisplay
   | option == "7" = exitSuccess
   | otherwise = do
-    putOnScreen "Invalid option. Press ENTER to continue."
+    putOnScreen "Invalid option. (Press ENTER to continue)"
     mainMenuDisplay

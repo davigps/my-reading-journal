@@ -76,7 +76,6 @@ seeBooksDisplay = do
       putOnScreen "\n\n(Press ENTER to continue)"
       return ""
     else do
-      putOnScreen "There are no books here. (Press ENTER to continue)"
       return ""
 
 delBookDisplay :: IO String
