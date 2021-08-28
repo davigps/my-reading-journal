@@ -1,6 +1,7 @@
 module Utils.Api where
 
 import Data.Aeson (decode)
+import Data.Char
 import DataTypes.Api
 import qualified DataTypes.Subjects as Subjects
 import Network.HTTP.Base (urlEncodeVars)
@@ -31,8 +32,8 @@ makeSubjectsRequest :: String -> IO (Maybe Subjects.SubjectsResponse)
 makeSubjectsRequest subjectName =
   fmap decode $
     simpleHttp $
-      "http://openlibrary.org/"
-        ++ URI.encode subjectName
+      "http://openlibrary.org/subjects/"
+        ++ URI.encode (map toLower subjectName)
         ++ ".json"
 
 searchSubject :: String -> IO [Subjects.BookSubjectsResponse]

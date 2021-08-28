@@ -6,6 +6,8 @@ import DataTypes.Application
 import DataTypes.Profile
 import Screens.Folder
 import Screens.SearchBook
+import Utils.Api
+import Utils.BookSuggestion
 import Utils.Screen
 
 addBookDisplay :: IO String
@@ -113,8 +115,34 @@ editBookGoalDisplay = do
 
 suggestionDisplay :: IO String
 suggestionDisplay = do
-  putOnScreenCls
-    "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
-    \Based on your readings and ratings: Harry Potter\n\n\
-    \(Press ENTER to continue)"
-  return ""
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nLoading...\n=-=-=-=-=-=-=-=-=-=\n"
+
+  books <- indexBooks
+
+  if null books
+    then
+      putOnScreenCls
+        "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
+        \You don't have any registered books! \n(Press ENTER to continue)"
+    else do
+      let mostReadSubject = getMostReadSubject books
+      let bestRatedSubject = getBestRatedSubject books
+
+      bestRatedSubjectBooks <- searchSubject bestRatedSubject
+      let bothSubjectsBooks = onlyBooksFromSubject bestRatedSubjectBooks mostReadSubject
+
+      if null bothSubjectsBooks
+        then
+          putOnScreenCls
+            "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
+            \Unfortunately, we don't have enough information about your reading habits! \n(Press ENTER to continue)"
+        else do
+          chosenBook <- getRandomUnreadBook bothSubjectsBooks
+
+          putOnScreenCls $
+            "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
+            \Based on your readings and ratings:\n\n"
+              ++ show chosenBook
+              ++ "\n\n(Press ENTER to continue)"
+          return ""

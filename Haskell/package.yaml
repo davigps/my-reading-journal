@@ -30,6 +30,7 @@ dependencies:
   - time
   - containers
   - uri-encode
+  - random
 
 library:
   source-dirs: src
