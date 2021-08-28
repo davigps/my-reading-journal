@@ -38,3 +38,8 @@ getSubjectRate sub books = getTotalSumRate sub books `div` length books
       if sub `elem` subject current
         then rate current + getTotalSumRate sub rest
         else getTotalSumRate sub rest
+
+isAlreadyRegistered :: String -> [Book] -> Bool
+isAlreadyRegistered bookTitle books = not (null filteredBooks)
+  where
+    filteredBooks = filter (\book -> title book == bookTitle) books
