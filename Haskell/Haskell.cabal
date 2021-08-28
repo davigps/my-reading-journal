@@ -32,6 +32,7 @@ library
       DataTypes.Application
       DataTypes.Profile
       DataTypes.Subjects
+      DataTypes.SubjectsApi
       Screens.Books
       Screens.Folder
       Screens.Main
