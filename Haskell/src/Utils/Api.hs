@@ -1,10 +1,12 @@
 module Utils.Api where
 
 import Data.Aeson (decode)
+import Data.Char
 import DataTypes.Api
-import qualified DataTypes.Subjects
+import qualified DataTypes.Subjects as Subjects
 import Network.HTTP.Base (urlEncodeVars)
 import Network.HTTP.Conduit (simpleHttp)
+import qualified Network.URI.Encode as URI
 
 makeRequest :: String -> Int -> IO (Maybe SearchResponse)
 makeRequest bookTitle page =
@@ -24,4 +26,17 @@ cleanBook :: BookApi -> BookApi
 cleanBook book = BookApi (title book) (cleanSubjects (subject book)) (author_name book)
 
 cleanSubjects :: [String] -> [String]
-cleanSubjects = filter (`elem` DataTypes.Subjects.subjects)
+cleanSubjects = filter (`elem` Subjects.subjects)
+
+makeSubjectsRequest :: String -> IO (Maybe Subjects.SubjectsResponse)
+makeSubjectsRequest subjectName =
+  fmap decode $
+    simpleHttp $
+      "http://openlibrary.org/subjects/"
+        ++ URI.encode (map toLower subjectName)
+        ++ ".json"
+
+searchSubject :: String -> IO [Subjects.BookSubjectsResponse]
+searchSubject bookTitle = do
+  (Just response) <- makeSubjectsRequest bookTitle
+  return $ Subjects.works response
