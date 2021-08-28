@@ -1,11 +1,14 @@
 module Screens.Books where
 
 import Controllers.Book
-import DataTypes.Application
-import Screens.SearchBook
-import Utils.Screen
 import Controllers.Profile
+import DataTypes.Application
 import DataTypes.Profile
+import Screens.Folder
+import Screens.SearchBook
+import Utils.Api
+import Utils.BookSuggestion
+import Utils.Screen
 
 addBookDisplay :: IO String
 addBookDisplay = do
@@ -20,21 +23,44 @@ addBookDisplay = do
 
 editBookDisplay :: IO String
 editBookDisplay = do
-  line <-
-    putOnScreenCls
-      "\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n\
-      \Enter the name of the book you want to edit or 'v' to go back:"
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n"
+  books <- indexBooks
+  printBooks books 1
 
-  (Just book) <- readBook line
+  line <-
+    putOnScreen
+      "\nChoose an option or digit 'v' to go back:"
+
+
   if line == "v"
     then return ""
     else do
-      newRate <- putOnScreen "Enter the new rate: "
+      let optionNumber = read line :: Int
+      if optionNumber `elem` [1 .. length books]
+        then do
+          let bookTitle = title $ books !! (optionNumber -1)
+          (Just book) <- readBook bookTitle
+          enterEditDetails book
+          return ""
+        else do
+          putOnScreen "Invalid option! (Press ENTER to continue)"
+          editBookDisplay
+
+enterEditDetails :: Book -> IO String
+enterEditDetails book = do
+  newRate <- putOnScreen "Enter the new rate: "
+  let intRate = read newRate :: Int
+  if intRate > 10 || intRate < 0
+    then do
+      putOnScreen "Invalid rate. The rate must be from 0 to 10. (Press ENTER to continue)"
+      enterEditDetails book
+    else do
       newDescription <- putOnScreen "Enter the new description: "
 
       let rateInt = read newRate :: Int
-      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription
-      updateBook line newBook
+      let newBook = Book (title book) (subject book) (author_name book) rateInt newDescription (folder book) (dateNow book)
+      updateBook (title book) newBook
 
       putOnScreen "Your book has been successfully edited! (Press ENTER to continue)"
       return ""
@@ -43,14 +69,15 @@ seeBooksDisplay :: IO String
 seeBooksDisplay = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
-  books <- indexBooks
+  books <- chooseFolderDisplay
   if books /= []
     then do
+      clearScreen
+      putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
       printBooks books 1
       putOnScreen "\n\n(Press ENTER to continue)"
       return ""
     else do
-      putOnScreen "There are no books here. (Press ENTER to continue)"
       return ""
 
 delBookDisplay :: IO String
@@ -63,15 +90,15 @@ delBookDisplay = do
 
   line <-
     putOnScreen
-      "\nEscolha uma opção ou digite 'v' to go back:"
-  
+      "\nChoose an option or digit 'v' to go back:"
+
   if line == "v"
     then return ""
     else do
       let optionNumber = read line :: Int
-      if elem optionNumber [1..5] 
+      if optionNumber `elem` [1 .. length books]
         then do
-          let bookTitle = title $ books !! (optionNumber-1)
+          let bookTitle = title $ books !! (optionNumber -1)
 
           successDelete <- deleteBook bookTitle
 
@@ -79,7 +106,7 @@ delBookDisplay = do
           updateGoal
           return ""
         else do
-          putOnScreen "Option Invalid! (Press ENTER to continue)"
+          putOnScreen "Invalid option! (Press ENTER to continue)"
           delBookDisplay
 
 editBookGoalDisplay :: IO String
@@ -95,14 +122,40 @@ editBookGoalDisplay = do
       books <- indexBooks
       let goal = length books
       let newProfile = Profile goal target
-      updateProfile newProfile 
+      updateProfile newProfile
       putOnScreen "Your goal has been successfully changed! (Press ENTER to continue)"
       return ""
 
 suggestionDisplay :: IO String
 suggestionDisplay = do
-  putOnScreenCls
-    "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
-    \Based on your readings and ratings: Harry Potter\n\n\
-    \(Press ENTER to continue)"
-  return ""
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nLoading...\n=-=-=-=-=-=-=-=-=-=\n"
+
+  books <- indexBooks
+
+  if null books
+    then
+      putOnScreenCls
+        "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
+        \You don't have any registered books! \n(Press ENTER to continue)"
+    else do
+      let mostReadSubject = getMostReadSubject books
+      let bestRatedSubject = getBestRatedSubject books
+
+      bestRatedSubjectBooks <- searchSubject bestRatedSubject
+      let bothSubjectsBooks = onlyBooksFromSubject bestRatedSubjectBooks mostReadSubject
+
+      if null bothSubjectsBooks
+        then
+          putOnScreenCls
+            "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
+            \Unfortunately, we don't have enough information about your reading habits! \n(Press ENTER to continue)"
+        else do
+          chosenBook <- getRandomUnreadBook bothSubjectsBooks
+
+          putOnScreenCls $
+            "\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n\
+            \Based on your readings and ratings:\n\n"
+              ++ show chosenBook
+              ++ "\n\n(Press ENTER to continue)"
+          return ""

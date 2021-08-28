@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module DataTypes.Application where
 
@@ -11,12 +12,14 @@ data Book = Book
     subject :: [String],
     author_name :: [String],
     rate :: Int,
-    description :: String
+    description :: String,
+    folder :: String,
+    dateNow :: String
   }
   deriving (Eq, Generic)
 
 instance Show Book where
-  show (Book title subject author_name rate description) =
+  show (Book title subject author_name rate description _ dateNow) =
     "Title: "
       ++ title
       ++ "\n\
@@ -31,6 +34,9 @@ instance Show Book where
       ++ "\n\
          \Description: "
       ++ description
+      ++ "\n\
+        \Registration Date: "
+      ++ dateNow
 
 instance ToJSON Book where
   toEncoding = genericToEncoding defaultOptions

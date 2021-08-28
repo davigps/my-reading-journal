@@ -28,7 +28,9 @@ dependencies:
   - process
   - bytestring
   - time
- 
+  - containers
+  - uri-encode
+  - random
 
 library:
   source-dirs: src

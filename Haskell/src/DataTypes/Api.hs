@@ -28,7 +28,7 @@ instance ToJSON BookApi where
 
 instance FromJSON BookApi
 
-newtype SearchResponse = SearchResponse {docs :: [BookApi]}
+data SearchResponse = SearchResponse {docs :: [BookApi], num_found :: Int}
   deriving (Eq, Generic)
 
 instance ToJSON SearchResponse where

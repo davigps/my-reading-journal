@@ -1,45 +1,60 @@
 module Screens.SearchBook where
 
 import Controllers.Book
+import Controllers.Profile
 import Data.Char (digitToInt)
 import DataTypes.Api
 import qualified DataTypes.Application
+import Screens.Folder
 import Utils.Api
 import Utils.Screen
-import Controllers.Profile
+import Data.Time
+      (FormatTime, formatTime, defaultTimeLocale, utcToLocalTime,
+      getCurrentTimeZone, getCurrentTime)
 
 searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nLoading...\n=-=-=-=-=-=-=-=-=-=\n"
-  books <- searchBook bookTitle page
+  (books, totalPages) <- searchBook bookTitle page
   clearScreen
 
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n"
-  if length books == 0
-    then putOnScreen "Book not found! (Press ENTER to back)" 
-    else do printBookApis books 1
-            line <-
-              putOnScreen
-                "\n\n=-=-=-=-=-=-=-=-=-=\n\
-                \Enter the option number (1...5) \n\
-                \or 'c' to cancel\n\
-                \or 'n' to see next page\n\
-                \or 'p' to see previous page\n\
-                \Your choice:"
+  if null books
+    then putOnScreen "Book not found! (Press ENTER to back)"
+    else do
+      printBookApis books 1
+      line <-
+        putOnScreen
+          "\n\n=-=-=-=-=-=-=-=-=-=\n\
+          \Enter the option number (1...5) \n\
+          \or 'c' to cancel\n\
+          \or 'n' to see next page\n\
+          \or 'p' to see previous page\n\
+          \Your choice:"
 
-            searchBookOptions books bookTitle page line
+      searchBookOptions books totalPages bookTitle page line
 
-searchBookOptions :: [BookApi] -> String -> Int -> String -> IO String
-searchBookOptions books bookTitle page option
+searchBookOptions :: [BookApi] -> Int -> String -> Int -> String -> IO String
+searchBookOptions books totalPages bookTitle page option
   | option == "c" = return ""
-  | option == "n" = searchBookDisplay bookTitle (page + 1)
-  | option == "p" = searchBookDisplay bookTitle (page - 1)
-  | elem (read option :: Int) [1..5] = do
+  | option == "n" = do
+    if page == totalPages
+      then do
+        putOnScreen "Invalid option. (Press ENTER to continue)"
+        searchBookDisplay bookTitle page
+      else searchBookDisplay bookTitle (page + 1)
+  | option == "p" = do
+    if page /= 1
+      then searchBookDisplay bookTitle (page - 1)
+      else do
+        putOnScreen "Invalid option. (Press ENTER to continue)"
+        searchBookDisplay bookTitle page
+  | (read option :: Int) `elem` [1 .. length books] = do
     let optionNumber = read option :: Int
     enterDetailsDisplay $ books !! (optionNumber - 1)
-  | otherwise = do 
-    putOnScreen "Option Invalid. (Press ENTER to continue)"
+  | otherwise = do
+    putOnScreen "Invalid option. (Press ENTER to continue)"
     searchBookDisplay bookTitle page
 
 printBookApis :: [BookApi] -> Int -> IO ()
@@ -59,17 +74,37 @@ getBookApiString book index =
 enterDetailsDisplay :: BookApi -> IO String
 enterDetailsDisplay bookApi = do
   rate <- putOnScreen "Enter a rate for the book: "
-  description <- putOnScreen "Enter a description for the book: "
+  let intRate = read rate :: Int
+  if 10 < intRate || intRate < 0
+    then do
+      putOnScreen "Invalid rate. The rate must be from 0 to 10. (Press ENTER to continue)"
+      enterDetailsDisplay bookApi
+    else do
+      description <- putOnScreen "Enter a description for the book: "
+      folder <- enterFolderDisplay
 
-  createBook
-    ( DataTypes.Application.Book
-        (title bookApi)
-        (subject bookApi)
-        (author_name bookApi)
-        (read rate :: Int)
-        description
-    )
+      t <- pure utcToLocalTime <*> getCurrentTimeZone <*> getCurrentTime
+      let dateNow = unlines (formats <*> pure t)
 
-  updateGoal
-  putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
-  return ""
+      if null folder
+        then do
+          putOnScreen "You need to choose a folder! (Press ENTER to continue)"
+          return ""
+        else do
+          createBook
+            ( DataTypes.Application.Book
+                (title bookApi)
+                (subject bookApi)
+                (author_name bookApi)
+                (read rate :: Int)
+                description
+                folder
+                dateNow
+            )
+
+          updateGoal
+          putOnScreen "Your book has been successfully added! (Press ENTER to continue)"
+          return ""
+
+formats :: FormatTime t => [t -> String]
+formats = (formatTime defaultTimeLocale) <$>  ["%d %B, %Y"]

@@ -33,9 +33,12 @@ library
       DataTypes.Profile
       DataTypes.Subjects
       Screens.Books
+      Screens.Folder
       Screens.Main
       Screens.SearchBook
       Utils.Api
+      Utils.BookSuggestion
+      Utils.Folder
       Utils.Screen
   other-modules:
       Paths_Haskell
@@ -46,9 +49,12 @@ library
     , aeson
     , base >=4.7 && <5
     , bytestring
+    , containers
     , http-conduit
     , process
+    , random
     , time
+    , uri-encode
   default-language: Haskell2010
 
 executable Haskell-exe
@@ -62,7 +68,10 @@ executable Haskell-exe
     , aeson
     , base >=4.7 && <5
     , bytestring
+    , containers
     , http-conduit
     , process
+    , random
     , time
+    , uri-encode
   default-language: Haskell2010
