@@ -29,6 +29,7 @@ dependencies:
   - bytestring
   - time
   - containers
+  - uri-encode
 
 library:
   source-dirs: src

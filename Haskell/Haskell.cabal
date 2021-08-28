@@ -32,7 +32,6 @@ library
       DataTypes.Application
       DataTypes.Profile
       DataTypes.Subjects
-      DataTypes.SubjectsApi
       Screens.Books
       Screens.Folder
       Screens.Main
@@ -54,6 +53,7 @@ library
     , http-conduit
     , process
     , time
+    , uri-encode
   default-language: Haskell2010
 
 executable Haskell-exe
@@ -71,4 +71,5 @@ executable Haskell-exe
     , http-conduit
     , process
     , time
+    , uri-encode
   default-language: Haskell2010
