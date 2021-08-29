@@ -33,8 +33,10 @@ instance FromJSON BookApi where
     case s of
       Nothing ->
         return (BookApi {title = t, subject = ["Other"], author_name = a})
-      Just sub ->
-        return (BookApi {title = t, subject = sub, author_name = a})
+      Just sub -> do
+        if null sub
+          then return (BookApi {title = t, subject = sub, author_name = a})
+          else return (BookApi {title = t, subject = ["Other"], author_name = a})
 
 data SearchResponse = SearchResponse {docs :: [BookApi], num_found :: Int}
   deriving (Eq, Generic)
