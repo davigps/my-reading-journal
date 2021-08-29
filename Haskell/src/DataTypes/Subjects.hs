@@ -142,5 +142,6 @@ subjects =
     "Chemistry",
     "English Language",
     "Physics",
-    "Computer Science"
+    "Computer Science",
+    "Other"
   ]
