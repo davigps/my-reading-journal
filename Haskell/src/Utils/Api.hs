@@ -23,7 +23,7 @@ searchBook bookTitle page = do
   return (books, totalPages)
 
 cleanBook :: BookApi -> BookApi
-cleanBook book = BookApi (title book) (cleanSubjects (subject book)) (author_name book)
+cleanBook book = BookWithSub (title book) (cleanSubjects (subject book)) (author_name book)
 
 cleanSubjects :: [String] -> [String]
 cleanSubjects = filter (`elem` Subjects.subjects)
