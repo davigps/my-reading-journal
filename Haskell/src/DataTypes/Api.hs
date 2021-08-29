@@ -4,6 +4,7 @@
 module DataTypes.Api where
 
 import Data.Aeson
+import Data.Maybe
 import GHC.Generics
 
 data BookApi = BookApi
@@ -27,16 +28,13 @@ instance Show BookApi where
 instance FromJSON BookApi where
   parseJSON = withObject "Book" $ \obj -> do
     t <- obj .: "title"
-    a <- obj .: "author_name"
+    a <- obj .:? "author_name"
     s <- obj .:? "subject"
 
-    case s of
-      Nothing ->
-        return (BookApi {title = t, subject = ["Other"], author_name = a})
-      Just sub -> do
-        if null sub
-          then return (BookApi {title = t, subject = ["Other"], author_name = a})
-          else return (BookApi {title = t, subject = sub, author_name = a})
+    let justSubject = fromMaybe ["Other"] s
+    let justAuthors = fromMaybe ["Other"] a
+
+    return (BookApi {title = t, subject = justSubject, author_name = justAuthors})
 
 data SearchResponse = SearchResponse {docs :: [BookApi], num_found :: Int}
   deriving (Eq, Generic)
