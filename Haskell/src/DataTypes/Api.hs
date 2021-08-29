@@ -6,20 +6,15 @@ module DataTypes.Api where
 import Data.Aeson
 import GHC.Generics
 
-data BookApi
-  = BookWithSub
-      { title :: String,
-        subject :: [String],
-        author_name :: [String]
-      }
-  | BookWithoutSub
-      { title :: String,
-        author_name :: [String]
-      }
+data BookApi = BookApi
+  { title :: String,
+    subject :: [String],
+    author_name :: [String]
+  }
   deriving (Eq)
 
 instance Show BookApi where
-  show (BookWithSub title subject author_name) =
+  show (BookApi title subject author_name) =
     "Title: "
       ++ title
       ++ "\n\
@@ -28,25 +23,18 @@ instance Show BookApi where
       ++ "\n\
          \Author's name: "
       ++ show author_name
-  show (BookWithoutSub title author_name) =
-    "Title: "
-      ++ title
-      ++ "\n\
-         \Author's name: "
-      ++ show author_name
 
 instance FromJSON BookApi where
-  parseJSON = withObject "Item" $ \obj -> do
+  parseJSON = withObject "Book" $ \obj -> do
     t <- obj .: "title"
     a <- obj .: "author_name"
-
     s <- obj .:? "subject"
 
     case s of
       Nothing ->
-        return (BookWithSub {title = t, subject = ["Other"], author_name = a})
+        return (BookApi {title = t, subject = ["Other"], author_name = a})
       Just sub ->
-        return (BookWithSub {title = t, subject = sub, author_name = a})
+        return (BookApi {title = t, subject = sub, author_name = a})
 
 data SearchResponse = SearchResponse {docs :: [BookApi], num_found :: Int}
   deriving (Eq, Generic)
