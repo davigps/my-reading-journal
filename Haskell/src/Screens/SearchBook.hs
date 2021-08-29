@@ -3,14 +3,19 @@ module Screens.SearchBook where
 import Controllers.Book
 import Controllers.Profile
 import Data.Char (digitToInt)
+import Data.Time
+  ( FormatTime,
+    defaultTimeLocale,
+    formatTime,
+    getCurrentTime,
+    getCurrentTimeZone,
+    utcToLocalTime,
+  )
 import DataTypes.Api
 import qualified DataTypes.Application
 import Screens.Folder
 import Utils.Api
 import Utils.Screen
-import Data.Time
-      (FormatTime, formatTime, defaultTimeLocale, utcToLocalTime,
-      getCurrentTimeZone, getCurrentTime)
 
 searchBookDisplay :: String -> Int -> IO String
 searchBookDisplay bookTitle page = do
@@ -83,7 +88,7 @@ enterDetailsDisplay bookApi = do
       description <- putOnScreen "Enter a description for the book: "
       folder <- enterFolderDisplay
 
-      t <- pure utcToLocalTime <*> getCurrentTimeZone <*> getCurrentTime
+      t <- utcToLocalTime <$> getCurrentTimeZone <*> getCurrentTime
       let dateNow = unlines (formats <*> pure t)
 
       if null folder
@@ -107,4 +112,4 @@ enterDetailsDisplay bookApi = do
           return ""
 
 formats :: FormatTime t => [t -> String]
-formats = (formatTime defaultTimeLocale) <$>  ["%d %B, %Y"]
+formats = formatTime defaultTimeLocale <$> ["%d %B, %Y"]
