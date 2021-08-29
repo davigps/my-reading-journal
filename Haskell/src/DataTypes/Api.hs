@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module DataTypes.Api where
 
@@ -10,7 +11,7 @@ data BookApi = BookApi
     subject :: [String],
     author_name :: [String]
   }
-  deriving (Eq, Generic)
+  deriving (Eq)
 
 instance Show BookApi where
   show (BookApi title subject author_name) =
@@ -23,15 +24,21 @@ instance Show BookApi where
          \Author's name: "
       ++ show author_name
 
-instance ToJSON BookApi where
-  toEncoding = genericToEncoding defaultOptions
+instance FromJSON BookApi where
+  parseJSON = withObject "Book" $ \obj -> do
+    t <- obj .: "title"
+    a <- obj .: "author_name"
+    s <- obj .:? "subject"
 
-instance FromJSON BookApi
+    case s of
+      Nothing ->
+        return (BookApi {title = t, subject = ["Other"], author_name = a})
+      Just sub -> do
+        if null sub
+          then return (BookApi {title = t, subject = ["Other"], author_name = a})
+          else return (BookApi {title = t, subject = sub, author_name = a})
 
 data SearchResponse = SearchResponse {docs :: [BookApi], num_found :: Int}
   deriving (Eq, Generic)
-
-instance ToJSON SearchResponse where
-  toEncoding = genericToEncoding defaultOptions
 
 instance FromJSON SearchResponse
