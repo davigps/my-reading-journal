@@ -167,7 +167,8 @@ filterBooks books = do
     putOnScreenCls
       "\n=-=-=-=-=-=-=-=-=-=\nFilter\n=-=-=-=-=-=-=-=-=-=\n\
       \Enter 'a' to filter by title, subject or author name\n\
-      \or 'r' to filter by minimum rate\n\
+      \or 'n' to filter by minimum rate\n\
+      \or 'm' to filter by maximum rate\n\
       \or 'c' to do not filter\n\
       \Your choice:"
   filterBooksOptions books option
@@ -177,9 +178,12 @@ filterBooksOptions books option
   | option == "a" = do
     filter <- putOnScreen "Enter the name:"
     return $ search (map toLower filter) books
-  | option == "r" = do
-    rate <- putOnScreen "Enter the rate:"
-    return $ search rate books
+  | option == "n" = do
+    rate <- putOnScreen "Enter the minimum rate:"
+    return $ searchMinimumRate (read rate) books
+  | option == "m" = do
+    rate <- putOnScreen "Enter the maximum rate:"
+    return $ searchMaximumRate (read rate) books
   | otherwise = return books
 
 isString :: String -> String -> [String] -> Bool
@@ -197,3 +201,9 @@ search filter books = [x | x <- books, isTitle x || isAuthorName x || isSubject 
     lowerTitle book = map toLower (title book)
     lowerAuthorName book = map toLower <$> author_name book
     lowerSubject book = map toLower <$> subject book
+
+searchMinimumRate :: Int -> [Book] -> [Book]
+searchMinimumRate filter books = [x | x <- books, rate x >= filter]
+
+searchMaximumRate :: Int -> [Book] -> [Book]
+searchMaximumRate filter books = [x | x <- books, rate x <= filter]
