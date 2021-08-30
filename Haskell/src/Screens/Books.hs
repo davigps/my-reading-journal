@@ -2,6 +2,7 @@ module Screens.Books where
 
 import Controllers.Book
 import Controllers.Profile
+import Data.Char
 import DataTypes.Application
 import DataTypes.Profile
 import Screens.Folder
@@ -31,7 +32,6 @@ editBookDisplay = do
   line <-
     putOnScreen
       "\nChoose an option or digit 'v' to go back:"
-
 
   if line == "v"
     then return ""
@@ -160,24 +160,40 @@ suggestionDisplay = do
               ++ show chosenBook
               ++ "\n\n(Press ENTER to continue)"
           return ""
+
 filterBooks :: [Book] -> IO [Book]
 filterBooks books = do
-  clearScreen
-  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nFilter\n=-=-=-=-=-=-=-=-=-=\n"
-  putStrLn "(Press ENTER to continue)"
-  filter <- getLine
-  if filter == "" 
-    then
-      return books
-    else 
-      return (search filter books)
+  option <-
+    putOnScreenCls
+      "\n=-=-=-=-=-=-=-=-=-=\nFilter\n=-=-=-=-=-=-=-=-=-=\n\
+      \Enter 'a' to filter by title, subject or author name\n\
+      \or 'r' to filter by minimum rate\n\
+      \or 'c' to do not filter\n\
+      \Your choice:"
+  filterBooksOptions books option
+
+filterBooksOptions :: [Book] -> String -> IO [Book]
+filterBooksOptions books option
+  | option == "a" = do
+    filter <- putOnScreen "Enter the name:"
+    return $ search (map toLower filter) books
+  | option == "r" = do
+    rate <- putOnScreen "Enter the rate:"
+    return $ search rate books
+  | otherwise = return books
 
 isString :: String -> String -> [String] -> Bool
 isString filter actual books
-    | actual == filter = True
-    | not (null books) = isString filter (head books) (tail books)
-    | otherwise = False
+  | actual == filter = True
+  | not (null books) = isString filter (head books) (tail books)
+  | otherwise = False
 
 search :: String -> [Book] -> [Book]
-search filter books = [x | x <- books, isString filter (head (words (title x))) (tail (words (title x))) || isString filter (head (author_name x)) (tail (author_name x)) || isString filter (head (subject x)) (tail (subject x))]
-
+search filter books = [x | x <- books, isTitle x || isAuthorName x || isSubject x]
+  where
+    isTitle x = isString filter (head (words (lowerTitle x))) (tail (words (lowerTitle x)))
+    isAuthorName x = isString filter (head (lowerAuthorName x)) (tail (lowerAuthorName x))
+    isSubject x = isString filter (head (lowerSubject x)) (tail (lowerSubject x))
+    lowerTitle book = map toLower (title book)
+    lowerAuthorName book = map toLower <$> author_name book
+    lowerSubject book = map toLower <$> subject book
