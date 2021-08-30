@@ -2,6 +2,7 @@ module Screens.Books where
 
 import Controllers.Book
 import Controllers.Profile
+import Data.Char
 import DataTypes.Application
 import DataTypes.Profile
 import Screens.Folder
@@ -31,7 +32,6 @@ editBookDisplay = do
   line <-
     putOnScreen
       "\nChoose an option or digit 'v' to go back:"
-
 
   if line == "v"
     then return ""
@@ -70,11 +70,12 @@ seeBooksDisplay = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
   books <- chooseFolderDisplay
-  if books /= []
+  filteredBooks <- filterBooks books
+  if filteredBooks /= []
     then do
       clearScreen
       putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
-      printBooks books 1
+      printBooks filteredBooks 1
       putOnScreen "\n\n(Press ENTER to continue)"
       return ""
     else do
@@ -159,3 +160,50 @@ suggestionDisplay = do
               ++ show chosenBook
               ++ "\n\n(Press ENTER to continue)"
           return ""
+
+filterBooks :: [Book] -> IO [Book]
+filterBooks books = do
+  option <-
+    putOnScreenCls
+      "\n=-=-=-=-=-=-=-=-=-=\nFilter\n=-=-=-=-=-=-=-=-=-=\n\
+      \Enter 'a' to filter by title, subject or author name\n\
+      \or 'n' to filter by minimum rate\n\
+      \or 'm' to filter by maximum rate\n\
+      \or 'c' to do not filter\n\
+      \Your choice:"
+  filterBooksOptions books option
+
+filterBooksOptions :: [Book] -> String -> IO [Book]
+filterBooksOptions books option
+  | option == "a" = do
+    filter <- putOnScreen "Enter the name:"
+    return $ search (map toLower filter) books
+  | option == "n" = do
+    rate <- putOnScreen "Enter the minimum rate:"
+    return $ searchMinimumRate (read rate) books
+  | option == "m" = do
+    rate <- putOnScreen "Enter the maximum rate:"
+    return $ searchMaximumRate (read rate) books
+  | otherwise = return books
+
+isString :: String -> String -> [String] -> Bool
+isString filter actual books
+  | actual == filter = True
+  | not (null books) = isString filter (head books) (tail books)
+  | otherwise = False
+
+search :: String -> [Book] -> [Book]
+search filter books = [x | x <- books, isTitle x || isAuthorName x || isSubject x]
+  where
+    isTitle x = isString filter (head (words (lowerTitle x))) (tail (words (lowerTitle x)))
+    isAuthorName x = isString filter (head (lowerAuthorName x)) (tail (lowerAuthorName x))
+    isSubject x = isString filter (head (lowerSubject x)) (tail (lowerSubject x))
+    lowerTitle book = map toLower (title book)
+    lowerAuthorName book = map toLower <$> author_name book
+    lowerSubject book = map toLower <$> subject book
+
+searchMinimumRate :: Int -> [Book] -> [Book]
+searchMinimumRate filter books = [x | x <- books, rate x >= filter]
+
+searchMaximumRate :: Int -> [Book] -> [Book]
+searchMaximumRate filter books = [x | x <- books, rate x <= filter]
