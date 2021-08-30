@@ -70,11 +70,12 @@ seeBooksDisplay = do
   clearScreen
   putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
   books <- chooseFolderDisplay
-  if books /= []
+  filteredBooks <- filterBooks books
+  if filteredBooks /= []
     then do
       clearScreen
       putStrLn "\n=-=-=-=-=-=-=-=-=-=\nList Books\n=-=-=-=-=-=-=-=-=-=\n"
-      printBooks books 1
+      printBooks filteredBooks 1
       putOnScreen "\n\n(Press ENTER to continue)"
       return ""
     else do
@@ -159,3 +160,24 @@ suggestionDisplay = do
               ++ show chosenBook
               ++ "\n\n(Press ENTER to continue)"
           return ""
+filterBooks :: [Book] -> IO [Book]
+filterBooks books = do
+  clearScreen
+  putStrLn "\n=-=-=-=-=-=-=-=-=-=\nFilter\n=-=-=-=-=-=-=-=-=-=\n"
+  putStrLn "(Press ENTER to continue)"
+  filter <- getLine
+  if filter == "" 
+    then
+      return books
+    else 
+      return (search filter books)
+
+isString :: String -> String -> [String] -> Bool
+isString filter actual books
+    | actual == filter = True
+    | not (null books) = isString filter (head books) (tail books)
+    | otherwise = False
+
+search :: String -> [Book] -> [Book]
+search filter books = [x | x <- books, isString filter (head (words (title x))) (tail (words (title x))) || isString filter (head (author_name x)) (tail (author_name x)) || isString filter (head (subject x)) (tail (subject x))]
+
