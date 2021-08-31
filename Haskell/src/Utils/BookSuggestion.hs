@@ -34,13 +34,18 @@ getBestRatedSubject books = onlySubjects !! bestRatedIndex
     bestRatedIndex = fromMaybe 0 maybeIndex
 
 getSubjectRate :: String -> [Book] -> Int
-getSubjectRate sub books = getTotalSumRate sub books `div` length books
+getSubjectRate sub books = getTotalSumRate sub books `div` getBooksQuantity sub books
   where
     getTotalSumRate sub [] = 0
     getTotalSumRate sub (current : rest) =
       if sub `elem` subject current
         then rate current + getTotalSumRate sub rest
         else getTotalSumRate sub rest
+    getBooksQuantity sub [] = 0
+    getBooksQuantity sub (current : rest) =
+      if sub `elem` subject current
+        then 1 + getBooksQuantity sub rest
+        else getBooksQuantity sub rest
 
 isAlreadyRegistered :: String -> [Book] -> Bool
 isAlreadyRegistered bookTitle books = not (null filteredBooks)

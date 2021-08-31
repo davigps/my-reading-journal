@@ -37,6 +37,6 @@ makeSubjectsRequest subjectName =
         ++ ".json"
 
 searchSubject :: String -> IO [Subjects.BookSubjectsResponse]
-searchSubject bookTitle = do
-  (Just response) <- makeSubjectsRequest bookTitle
+searchSubject bookSubject = do
+  (Just response) <- makeSubjectsRequest bookSubject
   return $ Subjects.works response
