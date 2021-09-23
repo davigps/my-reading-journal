@@ -21,16 +21,14 @@ screen('start',Content,NextScreens):-
         '7':'exit'
     }.
 
-screen('add_book', Content, NextScreens):-
+screen('add_book', Content, _):-
     Content= 
         '\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\c
-        Enter the name of the book or "v" to go back:',
-    NextScreens= _{}.
+        Enter the name of the book or "v" to go back:'.
 
-screen('search_book', Content, NextScreens):-
+screen('search_book', Content, _):-
     Content= 
-        '\n=-=-=-=-=-=-=-=-=-=\nSearch Book\n=-=-=-=-=-=-=-=-=-=\n',
-    NextScreens= _{}.
+        '\n=-=-=-=-=-=-=-=-=-=\nSearch Book\n=-=-=-=-=-=-=-=-=-=\n'.
 
 screen('exit',Content,_):-
     Content= '\nAté mais!\n'.
