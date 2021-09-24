@@ -5,7 +5,7 @@
 :- use_module("./src/screens/books.pl", []).
 
 screen('start'):-
-    %tty_clear,
+    cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\n\c
         1) Add books\n\c
         2) Edit books\n\c
@@ -32,6 +32,6 @@ screen('start'):-
     screen('start').
 
 screen('exit'):-
-    tty_clear,
+    cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nAté logo!\n=-=-=-=-=-=-=-=-=-=\n'),
     halt.

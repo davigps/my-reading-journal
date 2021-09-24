@@ -1,4 +1,4 @@
-:- module(utils, [promptChoice/2, waitInput/0, waitInput/1]).
+:- module(utils, [promptChoice/2, waitInput/0, waitInput/1, cls/0]).
 :- encoding(utf8).
 
 searchDict(Dict, Key, Result):-
@@ -17,3 +17,5 @@ waitInput(S):-
     write_ln(S),
     write_ln("Aperte qualquer tecla para continuar."),
     get_single_char(_),nl.
+
+cls:- current_prolog_flag(unix,_), tty_clear;true.

@@ -5,9 +5,9 @@
 :- use_module("./src/screens/main.pl", []).
 
 screen('search_book', Name, Page):-
-    %%tty_clear,
+    cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nLoading\n=-=-=-=-=-=-=-=-=-=\n'),
-    %tty_clear,
+    cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n'),
     writeln(Name),
     writeln(Page),
