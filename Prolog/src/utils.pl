@@ -8,14 +8,14 @@ searchDict(Dict, Key, Result):-
 
 promptChoice(Options, Value) :- read_line_to_string(user_input, S),
                                 searchDict(Options, S, Value),!;
-                                write_ln("Opção inválida! Tente novamente."),
+                                write_ln("Invalid option! Try again."),
                                 promptChoice(Options,Value).
 
 waitInput:- waitInput("").
 
 waitInput(S):-
     write_ln(S),
-    write_ln("Aperte qualquer tecla para continuar."),
+    write_ln("Press any key to continue."),
     get_single_char(_),nl.
 
 cls:- current_prolog_flag(unix,_), tty_clear;true.
