@@ -1,7 +1,5 @@
-:- module(utils, [promptChoice/2, cls/0, waitInput/0, waitInput/1]).
+:- module(utils, [promptChoice/2, waitInput/0, waitInput/1]).
 :- encoding(utf8).
-
-cls :- write("\e[H\e[2J").
 
 searchDict(Dict, Key, Result):-
     string_length(Key, L), L =:= 1,
