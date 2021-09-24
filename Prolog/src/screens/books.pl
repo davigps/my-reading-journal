@@ -5,7 +5,7 @@
 :- use_module("./src/screens/searchBook.pl", []).
 
 screen('add_book'):-
-    tty_clear,    
+    %tty_clear,    
     writeln('\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\c
         Enter the name of the book or "v" to go back:'),
     read_line_to_string(user_input, Name),
