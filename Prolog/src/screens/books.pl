@@ -11,3 +11,33 @@ screen('add_book'):-
     read_line_to_string(user_input, Name),
     (Name == "v" -> screens_main:screen('start'); 
         screens_searchBook:screen('search_book', Name, 1)).
+
+screen('edit_book'):-
+    cls,
+    writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n'),
+    % Mostra os livros
+    writeln('\nChoose an option or digit "v" to go back:'),
+    read_line_to_string(user_input, Choice),
+    editOption(Choice).
+
+editOption("v"):-
+    main:screen('start').
+editOption(Choice):-
+    number_string(Num, Choice),
+    Num >= 1,
+    Num =< 5, % Trocar pelo length
+    writeln('Opção escolhida'), % Seleciona o livro
+    writeln('Enter the new rate: '),
+    read_line_to_string(user_input, NewRate),
+    number_string(RateInt, NewRate),
+    utils:rateValidation(RateInt, Rate),
+    writeln('Enter the new description: '),
+    read_line_to_string(user_input, NewDescription),
+    writeln('Your book has been successfully edited!'),
+    writeln(Rate),
+    writeln(NewDescription),
+    utis:waitInput.
+editOption(_):-
+    writeln('Invalid option! Try again.'),
+    read_line_to_string(user_input, NewChoice),
+    editOption(NewChoice).
