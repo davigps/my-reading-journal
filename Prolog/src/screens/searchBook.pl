@@ -30,7 +30,7 @@ searchBookOption("p", Name, Page):-
 searchBookOption(NumString, Name, _):-
     number_string(Num, NumString),
     Num >= 1,
-    Num =< 5,
+    Num =< 5, % Mudar pelo length
     writeln('Opção escolhida'),
     enterDetailsDisplay(Name),
     utis:waitInput.
@@ -43,7 +43,7 @@ enterDetailsDisplay(BookApi):-
     writeln('Enter a rate for the book: '),
     read_line_to_string(user_input, RateString),
     number_string(RateInt, RateString),
-    rateValidation(RateInt, Rate),
+    utils:rateValidation(RateInt, Rate),
     writeln('Enter a description for the book: '),
     read_line_to_string(user_input, Description),
     % Falta a parte de pastas
@@ -52,10 +52,4 @@ enterDetailsDisplay(BookApi):-
     writeln(Description).
     
 
-rateValidation(Rate, NewRate):-
-    (10 < Rate;Rate < 0),
-    writeln('Invalid rate. The rate must be from 0 to 10. Try again.'),
-    read_line_to_string(user_input, NewRate),
-    number_string(NewRateInt, NewRate),
-    rateValidation(NewRateInt,_).
-rateValidation(_, _).
+% Falta a data
