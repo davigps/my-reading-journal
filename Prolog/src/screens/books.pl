@@ -20,6 +20,14 @@ screen('edit_book'):-
     read_line_to_string(user_input, Choice),
     editOption(Choice).
 
+screen('delete_books'):-
+    cls,
+    writeln('\n=-=-=-=-=-=-=-=-=-=\nDelete book\n=-=-=-=-=-=-=-=-=-=\n'),
+    % Mostra os livros
+    writeln('\nChoose an option or digit "v" to go back:'),
+    read_line_to_string(user_input, Choice),
+    deleteOption(Choice).
+
 editOption("v"):-
     main:screen('start').
 editOption(Choice):-
@@ -41,3 +49,17 @@ editOption(_):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
     editOption(NewChoice).
+
+deleteOption("v"):-
+    main:screen('start').
+deleteOption(Choice):-
+    number_string(Num, Choice),
+    Num >= 1,
+    Num =< 5, % Trocar pelo length
+    writeln('Opção escolhida'), % Seleciona o livro
+    writeln('Your book has been successfully deleted!'),
+    utis:waitInput.
+deleteOption(_):-
+    writeln('Invalid option! Try again.'),
+    read_line_to_string(user_input, NewChoice),
+    deleteOption(NewChoice).
