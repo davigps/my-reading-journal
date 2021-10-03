@@ -1,4 +1,12 @@
 {
-  "books": [
+  "books": [ 
+    { "title": "Bela e a Fera",
+      "subject": ["Romance"],
+      "author_name": ["Arthur Azevedo"],
+      "rate" : 5,
+      "description": "Livro bom da peste.",
+      "folder": "Romances",
+      "dateNow": "03/10/2021"
+    }
   ]
 }
