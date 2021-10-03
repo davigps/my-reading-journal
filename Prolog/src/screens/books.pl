@@ -3,9 +3,10 @@
 
 :- use_module("./src/screens/main.pl", []).
 :- use_module("./src/screens/searchBook.pl", []).
+:- use_module("./src/utils/files.pl").
 
 screen('add_book'):-
-    cls,    
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\c
         Enter the name of the book or "v" to go back:'),
     read_line_to_string(user_input, Name),
@@ -13,7 +14,7 @@ screen('add_book'):-
         screens_searchBook:screen('search_book', Name, 1)).
 
 screen('edit_book'):-
-    cls,
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n'),
     % Mostra os livros
     writeln('\nChoose an option or digit "v" to go back:'),
@@ -21,7 +22,7 @@ screen('edit_book'):-
     editOption(Choice).
 
 screen('delete_books'):-
-    cls,
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nDelete book\n=-=-=-=-=-=-=-=-=-=\n'),
     % Mostra os livros
     writeln('\nChoose an option or digit "v" to go back:'),
@@ -38,13 +39,13 @@ editOption(Choice):-
     writeln('Enter the new rate: '),
     read_line_to_string(user_input, NewRate),
     number_string(RateInt, NewRate),
-    utils:rateValidation(RateInt, Rate),
+    utils_books:rateValidation(RateInt, Rate),
     writeln('Enter the new description: '),
     read_line_to_string(user_input, NewDescription),
     writeln('Your book has been successfully edited!'),
     writeln(Rate),
     writeln(NewDescription),
-    utis:waitInput.
+    utils_screens:waitInput.
 editOption(_):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
@@ -58,7 +59,7 @@ deleteOption(Choice):-
     Num =< 5, % Trocar pelo length
     writeln('Opção escolhida'), % Seleciona o livro
     writeln('Your book has been successfully deleted!'),
-    utis:waitInput.
+    utils_screens:waitInput.
 deleteOption(_):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),

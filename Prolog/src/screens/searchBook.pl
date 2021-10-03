@@ -1,13 +1,14 @@
 :- module(screens_searchBook, [screen/3]).
 :- encoding(utf8).
 
-:- use_module("./src/utils.pl").
+:- use_module("./src/utils/screens.pl").
+:- use_module("./src/utils/books.pl").
 :- use_module("./src/screens/main.pl", []).
 
 screen('search_book', Name, Page):-
-    cls,
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nLoading\n=-=-=-=-=-=-=-=-=-=\n'),
-    cls,
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n'),
     writeln(Name),
     writeln(Page),
@@ -33,7 +34,7 @@ searchBookOption(NumString, Name, _):-
     Num =< 5, % Mudar pelo length
     writeln('Opção escolhida'),
     enterDetailsDisplay(Name),
-    utis:waitInput.
+    utils_screens:waitInput.
 searchBookOption(_, Name, Page):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, Choice),
@@ -43,7 +44,7 @@ enterDetailsDisplay(BookApi):-
     writeln('Enter a rate for the book: '),
     read_line_to_string(user_input, RateString),
     number_string(RateInt, RateString),
-    utils:rateValidation(RateInt, Rate),
+    utils_books:rateValidation(RateInt, Rate),
     writeln('Enter a description for the book: '),
     read_line_to_string(user_input, Description),
     % Falta a parte de pastas
