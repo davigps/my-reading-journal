@@ -3,9 +3,10 @@
 
 :- use_module("./src/screens/main.pl", []).
 :- use_module("./src/screens/searchBook.pl", []).
+:- use_module("./src/utils/files.pl").
 
 screen('add_book'):-
-    utils_screens:cls,    
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nAdd book\n=-=-=-=-=-=-=-=-=-=\n\c
         Enter the name of the book or "v" to go back:'),
     read_line_to_string(user_input, Name),
