@@ -3,7 +3,10 @@
 
 :- use_module("./src/utils/screens.pl").
 :- use_module("./src/utils/books.pl").
+:- use_module("./src/utils/screens.pl").
+
 :- use_module("./src/screens/main.pl", []).
+:- use_module("./src/screens/folder.pl", []).
 
 screen('search_book', Name, Page):-
     utils_screens:cls,
@@ -48,6 +51,11 @@ enterDetailsDisplay(BookApi):-
     writeln('Enter a description for the book: '),
     read_line_to_string(user_input, Description),
     % Falta a parte de pastas
+    screens_folder:screen('list_folders'),
+    write("\n"),
+    writeln('You need to choose a folder or press c to create!'),
+    read_line_to_string(user_input, Choose),
+    (Choose == "c" -> screens_folder:screen('add_folder'); writeln("Feito")),
     writeln(BookApi),
     writeln(Rate),
     writeln(Description).
