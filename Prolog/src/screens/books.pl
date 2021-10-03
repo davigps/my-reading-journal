@@ -87,11 +87,7 @@ editGoalOption("v"):-
 editGoalOption(Choice):-
     number_string(NumChoice, Choice),
     integer(NumChoice),
-    NewGoal = _{
-        'currentGoal':'0',
-        'currentTarget': Choice
-    },
-    controllers_profile:updateProfile(NewGoal),
+    controllers_profile:updateProfile(Choice),
     writeln('Your goal has been successfully changed!').
 editGoalOption(_):-
     writeln('Invalid option! Try again.'),
