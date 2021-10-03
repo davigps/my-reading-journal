@@ -9,8 +9,6 @@ rateValidation(Rate, NewRate):-
     rateValidation(NewRateInt, _).
 rateValidation(Rate, Rate).
 
-<<<<<<< Updated upstream
-=======
 printBooks([], _).
 printBooks([Book|Tail], Option):-
     write("\n"),  
@@ -32,7 +30,6 @@ printBooks([Book|Tail], Option):-
     NextOption is Option + 1,
     printBooks(Tail, NextOption).
 
->>>>>>> Stashed changes
 categories(["Arts",
     "Architecture",
     "Art Instruction",
@@ -130,4 +127,4 @@ categories(["Arts",
     "English Language",
     "Physics",
     "Computer Science",
-    "Other"]).
+    "Other"]).    

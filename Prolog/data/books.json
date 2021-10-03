@@ -1,7 +1,4 @@
 {
-<<<<<<< Updated upstream
-  "books": []
-=======
   "books": [ 
     { "title": "Bela e a Fera",
       "subject": ["Romance"],
@@ -20,5 +17,4 @@
       "dateNow": "03/10/2021"
     }
   ]
->>>>>>> Stashed changes
 }
