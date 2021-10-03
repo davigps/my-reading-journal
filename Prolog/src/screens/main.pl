@@ -1,11 +1,11 @@
 :- module(screens_main, [screen/1]).
 :- encoding(utf8).
 
-:- use_module("./src/utils.pl").
+:- use_module("./src/utils/screens.pl").
 :- use_module("./src/screens/books.pl", []).
 
 screen('start'):-
-    cls,
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\n\c
         1) Add books\n\c
         2) Edit books\n\c
