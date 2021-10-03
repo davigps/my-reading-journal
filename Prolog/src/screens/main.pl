@@ -8,7 +8,6 @@
 screen('start'):-
     utils_screens:cls,
     controllers_profile:indexProfile(Profile),
-    writeln(Profile.currentGoal),
     writeln('\n=-=-=-=-=-=-=-=-=-=\nMy Reading Journal\n=-=-=-=-=-=-=-=-=-=\n\c'),
     atom_concat(Profile.currentGoal, '/', P1),
     atom_concat(P1, Profile.currentTarget, P2),
