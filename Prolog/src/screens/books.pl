@@ -6,6 +6,7 @@
 
 :- use_module("./src/utils/files.pl").
 :- use_module("./src/utils/books.pl").
+:- use_module("./src/utils/screens.pl").
 
 :- use_module("./src/controllers/profile.pl").
 :- use_module("./src/controllers/books.pl").
