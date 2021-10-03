@@ -52,6 +52,7 @@ enterDetailsDisplay(BookApi):-
     read_line_to_string(user_input, Description),
     % Falta a parte de pastas
     screens_folder:screen('list_folders'),
+    write("\n"),
     writeln('You need to choose a folder or press c to create!'),
     read_line_to_string(user_input, Choose),
     (Choose == "c" -> screens_folder:screen('add_folder'); writeln("Feito")),

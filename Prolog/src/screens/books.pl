@@ -23,6 +23,7 @@ screen('edit_book'):-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n'),
     % Mostra os livros
+    utils_books:displayBooks
     writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
     editOption(Choice).
@@ -44,8 +45,7 @@ screen('edit_goal'):-
  screen('list_books'):-
     utils_screens:cls,
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
-    controllers_books:indexBooks(Books),
-    utils_books:printBooks(Books, 1).
+    utils_books:displayBooks.
 
 editOption("v"):-
     main:screen('start').
