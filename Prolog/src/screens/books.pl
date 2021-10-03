@@ -4,6 +4,7 @@
 :- use_module("./src/screens/main.pl", []).
 :- use_module("./src/screens/searchBook.pl", []).
 :- use_module("./src/utils/files.pl").
+:- use_module("./src/controllers/profile.pl").
 
 screen('add_book'):-
     utils_screens:cls,
@@ -28,6 +29,12 @@ screen('delete_books'):-
     writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
     deleteOption(Choice).
+
+screen('edit_goal'):-
+    writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit reading goal\n=-=-=-=-=-=-=-=-=-=\n'),
+    writeln('\nChoose an option or digit "v" to go back:'),
+    read_line_to_string(user_input, Choice),
+    editGoalOption(Choice).
 
 editOption("v"):-
     main:screen('start').
@@ -64,3 +71,19 @@ deleteOption(_):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
     deleteOption(NewChoice).
+
+editGoalOption("v"):-
+    main:screen('start').
+editGoalOption(Choice):-
+    number_string(NumChoice, Choice),
+    integer(NumChoice),
+    NewGoal = _{
+        'currentGoal':'0',
+        'currentTarget': Choice
+    },
+    controllers_profile:updateProfile(NewGoal),
+    writeln('Your goal has been successfully changed!').
+editGoalOption(_):-
+    writeln('Invalid option! Try again.'),
+    read_line_to_string(user_input, NewChoice),
+    editGoalOption(NewChoice).
