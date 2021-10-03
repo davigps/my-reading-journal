@@ -36,7 +36,7 @@ screen('delete_books'):-
 
 screen('edit_goal'):-
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit reading goal\n=-=-=-=-=-=-=-=-=-=\n'),
-    writeln('\nChoose an option or digit "v" to go back:'),
+    writeln('\nEnter new goal or \'v\' to go back:'),
     read_line_to_string(user_input, Choice),
     editGoalOption(Choice).
 
