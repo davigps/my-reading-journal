@@ -23,7 +23,7 @@ screen('edit_book'):-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n'),
     % Mostra os livros
-    utils_books:displayBooks
+    utils_books:displayBooks,
     writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
     editOption(Choice).
