@@ -9,6 +9,30 @@ rateValidation(Rate, NewRate):-
     rateValidation(NewRateInt, _).
 rateValidation(Rate, Rate).
 
+<<<<<<< Updated upstream
+=======
+printBooks([], _).
+printBooks([Book|Tail], Option):-
+    write("\n"),  
+    writeln("---------------------"),
+    atom_concat('-- Option ', Option, OptionNumber),
+    writeln(OptionNumber),
+    atom_concat('Title: ', Book.title, Title),
+    atom_concat('Rate: ', Book.rate, Rate),
+    atom_concat('Description: ', Book.description, Description),
+    atom_concat('Registration Date: ', Book.dateNow, Date),
+    writeln(Title),
+    write('Subjects: '),
+    writeln(Book.subject),
+    write('Author\'s: '),
+    writeln(Book.author_name),
+    writeln(Rate),
+    writeln(Description),
+    writeln(Date),
+    NextOption is Option + 1,
+    printBooks(Tail, NextOption).
+
+>>>>>>> Stashed changes
 categories(["Arts",
     "Architecture",
     "Art Instruction",

@@ -1,3 +1,24 @@
 {
+<<<<<<< Updated upstream
   "books": []
+=======
+  "books": [ 
+    { "title": "Bela e a Fera",
+      "subject": ["Romance"],
+      "author_name": ["Arthur Azevedo"],
+      "rate" : 5,
+      "description": "Livro bom da peste.",
+      "folder": "Romances",
+      "dateNow": "03/10/2021"
+    },
+    { "title": "Round 6",
+      "subject": ["Jogos"],
+      "author_name": ["Arthur Azevedo"],
+      "rate" : 5,
+      "description": "Livro ruim da peste.",
+      "folder": "Romances",
+      "dateNow": "03/10/2021"
+    }
+  ]
+>>>>>>> Stashed changes
 }

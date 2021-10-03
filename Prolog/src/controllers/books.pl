@@ -3,7 +3,7 @@
 :- use_module("./src/utils/files.pl", []).
 :- use_module(library(apply)).
 
-indexBooks(Books) :-
+indexBooks(Books):-
     utils_files:get_dict_from_json_file("./data/books.json", BooksFile),
     Books = BooksFile.get('books').
 
