@@ -1,6 +1,10 @@
 :- module(utils_books, [rateValidation/2, categories/1]).
 :- encoding(utf8).
 
+:- use_module("./src/utils/books.pl").
+
+:- use_module("./src/controllers/books.pl").
+
 rateValidation(Rate, NewRate):-
     (10 < Rate;Rate < 0),
     writeln('Invalid rate. The rate must be from 0 to 10. Try again.'),
@@ -8,6 +12,10 @@ rateValidation(Rate, NewRate):-
     number_string(NewRateInt, NewRate),
     rateValidation(NewRateInt, _).
 rateValidation(Rate, Rate).
+
+displayBooks:-
+    controllers_books:indexBooks(Books),
+    utils_books:printBooks(Books, 1).
 
 printBooks([], _).
 printBooks([Book|Tail], Option):-
