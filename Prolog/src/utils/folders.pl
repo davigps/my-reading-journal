@@ -10,3 +10,8 @@ printFolders([Folder|Tail], Option):-
     writeln(PrintFolder),
     NextOption is Option + 1,
     printFolders(Tail, NextOption).
+
+getFolderBooks(Choice, Folder) :-
+    controllers_folders:indexFolders(Folders),
+    number_string(ChoiceNumber, Choice),
+    nth1(ChoiceNumber, Folders, Folder).
