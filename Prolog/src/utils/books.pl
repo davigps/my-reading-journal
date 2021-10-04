@@ -38,6 +38,21 @@ printBooks([Book|Tail], Option):-
     NextOption is Option + 1,
     printBooks(Tail, NextOption).
 
+printApiBooks([], _).
+printApiBooks([Book|Tail], Option):-
+    write("\n"),  
+    writeln("---------------------"),
+    atom_concat('-- Option ', Option, OptionNumber),
+    writeln(OptionNumber),
+    atom_concat('Title: ', Book.title, Title),
+    writeln(Title),
+    write('Author\'s name: '),
+    writeln(Book.author_name),
+    write('Subjects: '),
+    writeln(Book.subject),
+    NextOption is Option + 1,
+    printApiBooks(Tail, NextOption).
+
 suggestionBooks:-
     %Fazer a parte lógica
     controllers_books:indexBooks([Book|_]),

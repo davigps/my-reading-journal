@@ -2,7 +2,6 @@
 :- encoding(utf8).
 
 :- use_module("./src/utils/screens.pl").
-:- use_module("./src/utils/api.pl").
 :- use_module("./src/screens/books.pl", []).
 :- use_module("./src/controllers/profile.pl").
 

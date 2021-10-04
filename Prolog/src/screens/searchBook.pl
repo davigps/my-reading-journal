@@ -1,6 +1,7 @@
 :- module(screens_searchBook, [screen/3]).
 :- encoding(utf8).
 
+:- use_module("./src/utils/api.pl").
 :- use_module("./src/utils/screens.pl").
 :- use_module("./src/utils/books.pl").
 :- use_module("./src/utils/screens.pl").
@@ -11,10 +12,11 @@
 screen('search_book', Name, Page):-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nLoading\n=-=-=-=-=-=-=-=-=-=\n'),
+    utils_api:searchBook(Name, Page, Response),
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nSearch Results\n=-=-=-=-=-=-=-=-=-=\n'),
-    writeln(Name),
-    writeln(Page),
+    utils_books:printApiBooks(Response, 1),
+    write('\n'),
     writeln('Enter the option number (1...5)\n\c
         or "c" to cancel\n\c
         or "n" to see next page\n\c
