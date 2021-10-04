@@ -35,16 +35,25 @@ screen('delete_books'):-
     deleteOption(Choice).
 
 screen('edit_goal'):-
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit reading goal\n=-=-=-=-=-=-=-=-=-=\n'),
     writeln('\nEnter new goal or \'v\' to go back:'),
     read_line_to_string(user_input, Choice),
     editGoalOption(Choice).
 
- screen('list_books'):-
+screen('list_books'):-
     utils_screens:cls,
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
     controllers_books:indexBooks(Books),
     utils_books:printBooks(Books, 1).
+
+screen('book_suggestion'):-
+    utils_screens:cls,
+    write('\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n'),
+    writeln('Based on your readings and ratings:\n'),
+    utils_books:suggestionBooks,
+    utils_screens:waitInput.
+
 
 editOption("v"):-
     main:screen('start').
