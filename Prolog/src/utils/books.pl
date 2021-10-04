@@ -1,6 +1,10 @@
 :- module(utils_books, [rateValidation/2, categories/1]).
 :- encoding(utf8).
 
+:- use_module("./src/utils/books.pl").
+
+:- use_module("./src/controllers/books.pl").
+
 rateValidation(Rate, NewRate):-
     (10 < Rate;Rate < 0),
     writeln('Invalid rate. The rate must be from 0 to 10. Try again.'),
@@ -8,6 +12,39 @@ rateValidation(Rate, NewRate):-
     number_string(NewRateInt, NewRate),
     rateValidation(NewRateInt, _).
 rateValidation(Rate, Rate).
+
+displayBooks:-
+    controllers_books:indexBooks(Books),
+    utils_books:printBooks(Books, 1).
+
+printBooks([], _).
+printBooks([Book|Tail], Option):-
+    write("\n"),  
+    writeln("---------------------"),
+    atom_concat('-- Option ', Option, OptionNumber),
+    writeln(OptionNumber),
+    atom_concat('Title: ', Book.title, Title),
+    atom_concat('Rate: ', Book.rate, Rate),
+    atom_concat('Description: ', Book.description, Description),
+    atom_concat('Registration Date: ', Book.dateNow, Date),
+    writeln(Title),
+    write('Subjects: '),
+    writeln(Book.subject),
+    write('Author\'s: '),
+    writeln(Book.author_name),
+    writeln(Rate),
+    writeln(Description),
+    writeln(Date),
+    NextOption is Option + 1,
+    printBooks(Tail, NextOption).
+
+suggestionBooks:-
+    %Fazer a parte lógica
+    controllers_books:indexBooks([Book|_]),
+    write('Title: '),
+    writeln(Book.title),
+    write('Author\'s: '),
+    writeln(Book.author_name).
 
 categories(["Arts",
     "Architecture",
@@ -106,4 +143,4 @@ categories(["Arts",
     "English Language",
     "Physics",
     "Computer Science",
-    "Other"]).
+    "Other"]).    

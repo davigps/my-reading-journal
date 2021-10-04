@@ -3,8 +3,13 @@
 
 :- use_module("./src/screens/main.pl", []).
 :- use_module("./src/screens/searchBook.pl", []).
+
 :- use_module("./src/utils/files.pl").
+:- use_module("./src/utils/books.pl").
+:- use_module("./src/utils/screens.pl").
+
 :- use_module("./src/controllers/profile.pl").
+:- use_module("./src/controllers/books.pl").
 
 screen('add_book'):-
     utils_screens:cls,
@@ -18,6 +23,7 @@ screen('edit_book'):-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n'),
     % Mostra os livros
+    utils_books:displayBooks,
     writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
     editOption(Choice).
@@ -31,10 +37,24 @@ screen('delete_books'):-
     deleteOption(Choice).
 
 screen('edit_goal'):-
+    utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit reading goal\n=-=-=-=-=-=-=-=-=-=\n'),
-    writeln('\nChoose an option or digit "v" to go back:'),
+    writeln('\nEnter new goal or \'v\' to go back:'),
     read_line_to_string(user_input, Choice),
     editGoalOption(Choice).
+
+screen('list_books'):-
+    utils_screens:cls,
+    write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
+    utils_books:displayBooks.
+
+screen('book_suggestion'):-
+    utils_screens:cls,
+    write('\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n'),
+    writeln('Based on your readings and ratings:\n'),
+    utils_books:suggestionBooks,
+    utils_screens:waitInput.
+
 
 editOption("v"):-
     main:screen('start').
@@ -77,13 +97,9 @@ editGoalOption("v"):-
 editGoalOption(Choice):-
     number_string(NumChoice, Choice),
     integer(NumChoice),
-    NewGoal = _{
-        'currentGoal':'0',
-        'currentTarget': Choice
-    },
-    controllers_profile:updateProfile(NewGoal),
+    controllers_profile:updateProfile(Choice),
     writeln('Your goal has been successfully changed!').
 editGoalOption(_):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
-    editGoalOption(NewChoice).
+    editGoalOption(NewChoice).    
