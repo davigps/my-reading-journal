@@ -1,20 +1,40 @@
 {
-  "books": [ 
-    { "title": "Bela e a Fera",
-      "subject": ["Romance"],
-      "author_name": ["Arthur Azevedo"],
-      "rate" : 5,
-      "description": "Livro bom da peste.",
-      "folder": "Romances",
-      "dateNow": "03/10/2021"
+  "books": [
+    {
+      "author_name": ["Arthur Azevedo" ],
+      "dateNow":"03/10/2021",
+      "description":"Livro bom da peste.",
+      "folder":"Romances",
+      "rate":5,
+      "subject": ["Romance" ],
+      "title":"Bela e a Fera"
     },
-    { "title": "Round 6",
-      "subject": ["Jogos"],
-      "author_name": ["Arthur Azevedo"],
-      "rate" : 5,
-      "description": "Livro ruim da peste.",
-      "folder": "Fiction",
-      "dateNow": "03/10/2021"
+    {
+      "author_name": ["Arthur Azevedo" ],
+      "dateNow":"03/10/2021",
+      "description":"Livro ruim da peste.",
+      "folder":"Fiction",
+      "rate":5,
+      "subject": ["Jogos" ],
+      "title":"Round 6"
+    },
+    {
+      "author_name": ["J. K. Rowling" ],
+      "dateNow":"4/10/2021",
+      "description":"oeo",
+      "folder":"You",
+      "rate":10,
+      "subject": ["Magic", "Fiction" ],
+      "title":"Harry Potter and the Prisoner of Azkaban"
+    },
+    {
+      "author_name": ["Stephen King" ],
+      "dateNow":"4/10/2021",
+      "description":"muito bom",
+      "folder":"Fiction",
+      "rate":6,
+      "subject": ["Fiction" ],
+      "title":"It"
     }
   ]
 }

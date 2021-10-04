@@ -69,6 +69,13 @@ suggestionBooks:-
     write('Author\'s: '),
     writeln(Book.author_name).
 
+getCurrentDateString(DateString) :-
+    date(date(Year, Month, Day)),
+    atom_concat(Day, '/', DayString),
+    atom_concat(Month, '/', MonthString),
+    atom_concat(MonthString, Year, YearString),
+    atom_concat(DayString, YearString, DateString).
+
 categories(["Arts",
     "Architecture",
     "Art Instruction",

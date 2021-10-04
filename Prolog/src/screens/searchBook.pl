@@ -23,44 +23,56 @@ screen('search_book', Name, Page):-
         or "p" to see previous page\n\c
         Your choice:\n'),
     read_line_to_string(user_input, Choice),
-    searchBookOption(Choice, Name, Page).
+    searchBookOption(Choice, Name, Page, Response).
 
-searchBookOption("c", _, _):- screens_main:screen('start').
-searchBookOption("n", Name, Page):- % Verificar a quantidade máxima de páginas
+searchBookOption("c", _, _, _):- screens_main:screen('start').
+searchBookOption("n", Name, Page, _):- % Verificar a quantidade máxima de páginas
     NewPage is Page + 1,
     screen('search_book', Name, NewPage).
-searchBookOption("p", Name, Page):- 
+searchBookOption("p", Name, Page, _):- 
     NewPage is Page - 1,
     (Page =:= 1 -> screen('search_book', Name, Page);
         screen('search_book', Name, NewPage)).
-searchBookOption(NumString, Name, _):-
+searchBookOption(NumString, _, _, Books):-
     number_string(Num, NumString),
     Num >= 1,
-    Num =< 5, % Mudar pelo length
+    length(Books, BooksSize),
+    Num =< BooksSize, 
+    nth1(Num, Books, ChosenBook),
     writeln('Opção escolhida'),
-    enterDetailsDisplay(Name),
+    enterDetailsDisplay(ChosenBook),
     utils_screens:waitInput.
-searchBookOption(_, Name, Page):-
+searchBookOption(_, Name, Page, _):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, Choice),
     searchBookOption(Choice, Name, Page).
 
 enterDetailsDisplay(BookApi):-
+    utils_books:getCurrentDateString(DateString),
     writeln('Enter a rate for the book: '),
     read_line_to_string(user_input, RateString),
     number_string(RateInt, RateString),
     utils_books:rateValidation(RateInt, Rate),
     writeln('Enter a description for the book: '),
     read_line_to_string(user_input, Description),
-    % Falta a parte de pastas
     screens_folder:screen('list_folders'),
     write("\n"),
     writeln('You need to choose a folder or press c to create!'),
     read_line_to_string(user_input, Choose),
-    (Choose == "c" -> screens_folder:screen('add_folder'); writeln("Feito")),
-    writeln(BookApi),
-    writeln(Rate),
-    writeln(Description).
-    
+    createBook(_{
+        'title': BookApi.title,
+        'subject': BookApi.subject,
+        'author_name': BookApi.author_name,
+        'rate': Rate,
+        'description': Description,
+        'dateNow': DateString
+    }, Choose).
 
-% Falta a data
+createBook(Book, "c") :-
+    screens_folder:screen('add_folder', CreatedFolder),
+    CreatedBook = Book.put('folder', CreatedFolder),
+    controllers_books:createBook(CreatedBook).
+createBook(Book, Choose) :-
+    utils_folders:getFolderBooks(Choose, Folder),
+    CreatedBook = Book.put('folder', Folder),
+    controllers_books:createBook(CreatedBook).

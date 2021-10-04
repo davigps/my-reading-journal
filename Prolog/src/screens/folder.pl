@@ -8,11 +8,11 @@
 
 :- use_module("./src/controllers/folders.pl").
 
-screen('add_folder'):-
+screen('add_folder', CreatedFolder):-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nCreate Folder\n=-=-=-=-=-=-=-=-=-=\nEnter new folder\'s name: '),
-    read_line_to_string(user_input, FolderName),
-    controllers_folders:createFolder(FolderName).
+    read_line_to_string(user_input, CreatedFolder),
+    controllers_folders:createFolder(CreatedFolder).
 
 screen('list_folders'):-
     utils_screens:cls,

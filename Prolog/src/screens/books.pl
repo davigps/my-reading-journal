@@ -7,6 +7,7 @@
 :- use_module("./src/utils/files.pl").
 :- use_module("./src/utils/books.pl").
 :- use_module("./src/utils/screens.pl").
+:- use_module("./src/utils/folders.pl").
 
 :- use_module("./src/controllers/profile.pl").
 :- use_module("./src/controllers/books.pl").
@@ -67,9 +68,7 @@ screen('book_suggestion'):-
 
 screen('filtered_books', Choice):-
     utils_screens:cls,
-    controllers_folders:indexFolders(Folders),
-    number_string(ChoiceNumber, Choice),
-    nth1(ChoiceNumber, Folders, Folder),
+    utils_folders:getFolderBooks(Choice, Folder),
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
     utils_books:displayFilteredBooks(Folder).
 
