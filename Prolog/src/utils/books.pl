@@ -17,6 +17,14 @@ displayBooks:-
     controllers_books:indexBooks(Books),
     utils_books:printBooks(Books, 1).
 
+displayFilteredBooks(Folder):-
+    controllers_books:indexBooks(Books),
+    exclude(folderToFilter(Folder), Books, PrintBooks),
+    utils_books:printBooks(PrintBooks, 1).
+
+folderToFilter(Folder, Book) :-
+    Folder \= Book.folder.
+
 printBooks([], _).
 printBooks([Book|Tail], Option):-
     write("\n"),  
