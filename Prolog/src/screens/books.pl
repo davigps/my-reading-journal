@@ -46,6 +46,16 @@ screen('edit_goal'):-
 screen('list_books'):-
     utils_screens:cls,
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
+    controllers_folders:indexFolders(Folders),
+    utils_folders:printFolders(Folders, 1),
+    writeln('\n Choice the folder or press \'a\' to list all books.'),
+    read_line_to_string(user_input, Choice),
+    (Choice == "a" -> screen('all_books'); screen('filtered_books', Choice)),
+    utils_screens:waitInput.
+
+screen('all_books'):-
+    utils_screens:cls,
+    write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
     utils_books:displayBooks.
 
 screen('book_suggestion'):-
@@ -55,6 +65,13 @@ screen('book_suggestion'):-
     utils_books:suggestionBooks,
     utils_screens:waitInput.
 
+screen('filtered_books', Choice):-
+    utils_screens:cls,
+    controllers_folders:indexFolders(Folders),
+    number_string(ChoiceNumber, Choice),
+    nth1(ChoiceNumber, Folders, Folder),
+    write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
+    utils_books:displayFilteredBooks(Folder).
 
 editOption("v"):-
     main:screen('start').
