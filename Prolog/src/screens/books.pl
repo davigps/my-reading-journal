@@ -31,11 +31,12 @@ screen('edit_book'):-
 
 screen('delete_books'):-
     utils_screens:cls,
-    writeln('\n=-=-=-=-=-=-=-=-=-=\nDelete book\n=-=-=-=-=-=-=-=-=-=\n'),
-    % Mostra os livros
+    write('\n=-=-=-=-=-=-=-=-=-=\nDelete book\n=-=-=-=-=-=-=-=-=-=\n'),
+    controllers_books:indexBooks(Books),
+    utils_books:printBooks(Books, 1),
     writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
-    deleteOption(Choice).
+    deleteOption(Choice, Books).
 
 screen('edit_goal'):-
     utils_screens:cls,
@@ -94,19 +95,20 @@ editOption(_):-
     read_line_to_string(user_input, NewChoice),
     editOption(NewChoice).
 
-deleteOption("v"):-
+deleteOption("v", _):-
     main:screen('start').
-deleteOption(Choice):-
+deleteOption(Choice, Books):-
     number_string(Num, Choice),
-    Num >= 1,
-    Num =< 5, % Trocar pelo length
-    writeln('Opção escolhida'), % Seleciona o livro
+    %Num >= 1,
+    %Num =< 5, % Trocar pelo length
+    utils_books:deleteBook(Books, Num),
     writeln('Your book has been successfully deleted!'),
     utils_screens:waitInput.
-deleteOption(_):-
+
+deleteOption(_, _):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
-    deleteOption(NewChoice).
+    deleteOption(NewChoice, _).
 
 editGoalOption("v"):-
     main:screen('start').
@@ -118,4 +120,4 @@ editGoalOption(Choice):-
 editGoalOption(_):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
-    editGoalOption(NewChoice).    
+    editGoalOption(NewChoice).

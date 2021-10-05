@@ -61,6 +61,10 @@ printApiBooks([Book|Tail], Option):-
     NextOption is Option + 1,
     printApiBooks(Tail, NextOption).
 
+deleteBook(Books, Index):-
+    nth1(Index, Books, ResponseBook),
+    controllers_books:deleteBook(ResponseBook.title).
+
 suggestionBooks:-
     %Fazer a parte lógica
     controllers_books:indexBooks([Book|_]),
