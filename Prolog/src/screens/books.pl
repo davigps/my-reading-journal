@@ -23,11 +23,13 @@ screen('add_book'):-
 screen('edit_book'):-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nEdit book\n=-=-=-=-=-=-=-=-=-=\n'),
-    % Mostra os livros
-    utils_books:displayBooks,
+    controllers_books:indexBooks(Books),
+    utils_books:printBooks(Books, 1),
     writeln('\nChoose an option or digit "v" to go back:'),
+    %utils_books:displayBooks,
+    %writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
-    editOption(Choice).
+    editOption(Choice, Books).
 
 screen('delete_books'):-
     utils_screens:cls,
@@ -73,24 +75,32 @@ screen('filtered_books', Choice):-
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
     utils_books:displayFilteredBooks(Folder).
 
-editOption("v"):-
+editOption("v", _):-
     main:screen('start').
-editOption(Choice):-
+editOption(Choice, Books):-
     number_string(Num, Choice),
-    Num >= 1,
-    Num =< 5, % Trocar pelo length
-    writeln('Opção escolhida'), % Seleciona o livro
+    %Num >= 1,
+    %Num =< 5, % Trocar pelo length
     writeln('Enter the new rate: '),
     read_line_to_string(user_input, NewRate),
     number_string(RateInt, NewRate),
     utils_books:rateValidation(RateInt, Rate),
     writeln('Enter the new description: '),
     read_line_to_string(user_input, NewDescription),
-    writeln('Your book has been successfully edited!'),
-    writeln(Rate),
-    writeln(NewDescription),
+    nth1(Num, Books, ResponseBook),
+    NewBook = _{
+        'author_name': ResponseBook.author_name,
+        'dateNow': ResponseBook.dateNow,
+        'description': NewDescription,
+        'folder': ResponseBook.folder,
+        'rate': Rate,
+        'subject': ResponseBook.subject,
+        'title': ResponseBook.title
+    },
+    controllers_books:updateBook(ResponseBook.title, NewBook),
+    writeln('\nYour book has been successfully edited!'),
     utils_screens:waitInput.
-editOption(_):-
+editOption(_, _):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
     editOption(NewChoice).
