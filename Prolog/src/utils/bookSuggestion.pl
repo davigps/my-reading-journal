@@ -13,7 +13,9 @@ suggestionBooks:-
     utils_screens:cls,
     %writeln(Response),
     getMostReadSubject(MostReadSubject),
+    getBestRatedSubject(BestRatedSubject),
     writeln(MostReadSubject),
+    writeln(BestRatedSubject),
     %Fazer a parte lógica
     controllers_books:indexBooks([Book|_]),
     write('Title: '),
@@ -23,14 +25,35 @@ suggestionBooks:-
 
 getMostReadSubject(MostReadSubject) :-
     controllers_books:indexBooks(Books),
-    foldl(concatenateBooks, Books, [], Subjects),
+    foldl(concatenateSubjects, Books, [], Subjects),
     msort(Subjects, SList),
     rle(SList, RLE),
     sort(RLE, SRLE),
-    last(SRLE, [Freq, MostReadSubject]).
+    last(SRLE, [_, MostReadSubject]).
 
-concatenateBooks(CurrentBook, Previous, Result) :-
-    writeln(CurrentBook),
+getBestRatedSubject(BestRatedSubject) :-
+    controllers_books:indexBooks(Books),
+    foldl(concatenateSubjects, Books, [], Subjects),
+    list_to_set(Subjects, SubjectsSet),
+    maplist(getSubjectRate, SubjectsSet, SubjectRates),
+    max_member(@=<, MaxRate, SubjectRates),
+    indexOf(SubjectRates, MaxRate, MaxIndex),
+    nth0(MaxIndex, SubjectsSet, BestRatedSubject).
+    
+getSubjectRate(Subject, Rate) :-
+    controllers_books:indexBooks(Books),
+    exclude(isNotFromSubject(Subject), Books, FilteredBooks),
+    maplist(getBookRate, FilteredBooks, Rates),
+    sum_list(Rates, RateTotal),
+    length(Rates, RatesLength),
+    Rate is RateTotal / RatesLength.
+    
+getBookRate(Book, Book.rate).
+
+isNotFromSubject(Subject, Book) :-
+    not(member(Subject, Book.subject)).
+
+concatenateSubjects(CurrentBook, Previous, Result) :-
     append(Previous, CurrentBook.subject, Result).
 
 count_repeated([Elem|Xs], Elem, Count, Ys) :-
@@ -43,3 +66,9 @@ rle([X|Xs], [[C,X]|Ys]) :-
     count_repeated([X|Xs], X, C, Zs),
     rle(Zs, Ys).
 rle([], []).
+
+indexOf([Element|_], Element, 0):- !.
+indexOf([_|Tail], Element, Index):-
+  indexOf(Tail, Element, Index1),
+  !,
+  Index is Index1+1.
