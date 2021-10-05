@@ -61,14 +61,6 @@ printApiBooks([Book|Tail], Option):-
     NextOption is Option + 1,
     printApiBooks(Tail, NextOption).
 
-suggestionBooks:-
-    %Fazer a parte lógica
-    controllers_books:indexBooks([Book|_]),
-    write('Title: '),
-    writeln(Book.title),
-    write('Author\'s: '),
-    writeln(Book.author_name).
-
 getCurrentDateString(DateString) :-
     date(date(Year, Month, Day)),
     atom_concat(Day, '/', DayString),
