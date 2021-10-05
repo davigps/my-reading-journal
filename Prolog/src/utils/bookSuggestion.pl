@@ -9,19 +9,17 @@
 suggestionBooks:-
     utils_screens:cls,
     writeln('\n=-=-=-=-=-=-=-=-=-=\nLoading\n=-=-=-=-=-=-=-=-=-=\n'),
-    %utils_api:requestSearchSubject('Science Fiction', Response),
-    utils_screens:cls,
-    %writeln(Response),
     getMostReadSubject(MostReadSubject),
     getBestRatedSubject(BestRatedSubject),
-    writeln(MostReadSubject),
-    writeln(BestRatedSubject),
-    %Fazer a parte lógica
-    controllers_books:indexBooks([Book|_]),
+    utils_api:requestSearchSubject(BestRatedSubject, Response),
+    exclude(isNotFromSubject(MostReadSubject), Response.works, FilteredBooks),
+    unreadRandomBook(FilteredBooks, Book),
+    maplist(getAuthorName, Book.authors, Authors),
+    utils_screens:cls,
     write('Title: '),
     writeln(Book.title),
-    write('Author\'s: '),
-    writeln(Book.author_name).
+    write('Author\'s name: '),
+    writeln(Authors).
 
 getMostReadSubject(MostReadSubject) :-
     controllers_books:indexBooks(Books),
@@ -72,3 +70,14 @@ indexOf([_|Tail], Element, Index):-
   indexOf(Tail, Element, Index1),
   !,
   Index is Index1+1.
+
+unreadRandomBook(List, Elem) :-
+    length(List, Length),
+    random_between(0, Length, Index), !,
+    nth1(Index, List, RandomElem),
+    controllers_books:indexBooks(Books),
+    exclude(controllers_books:booksAreNotIdentical(RandomElem.title), Books, Search),
+    length(Search, SearchSize),
+    (SearchSize =:= 0 -> Elem = RandomElem; unreadRandomBook(List, Elem)).
+
+getAuthorName(Author, Author.name).
