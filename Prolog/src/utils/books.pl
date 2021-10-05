@@ -61,6 +61,10 @@ printApiBooks([Book|Tail], Option):-
     NextOption is Option + 1,
     printApiBooks(Tail, NextOption).
 
+deleteBook(Books, Index):-
+    nth1(Index, Books, ResponseBook),
+    controllers_books:deleteBook(ResponseBook.title).
+
 getCurrentDateString(DateString) :-
     date(date(Year, Month, Day)),
     atom_concat(Day, '/', DayString),

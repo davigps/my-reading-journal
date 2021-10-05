@@ -21,18 +21,18 @@
     {
       "author_name": ["J. K. Rowling" ],
       "dateNow":"4/10/2021",
-      "description":"oeo",
+      "description":"Muito bom mesmo",
       "folder":"You",
-      "rate":10,
+      "rate":9,
       "subject": ["Magic", "Fiction" ],
       "title":"Harry Potter and the Prisoner of Azkaban"
     },
     {
       "author_name": ["Stephen King" ],
       "dateNow":"4/10/2021",
-      "description":"muito bom",
+      "description":"Muito bom",
       "folder":"Fiction",
-      "rate":6,
+      "rate":10,
       "subject": ["Fiction" ],
       "title":"It"
     }
