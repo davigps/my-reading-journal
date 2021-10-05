@@ -46,7 +46,6 @@ printBooks([Book|Tail], Option):-
     NextOption is Option + 1,
     printBooks(Tail, NextOption).
 
-<<<<<<< Updated upstream
 printApiBooks([], _).
 printApiBooks([Book|Tail], Option):-
     write("\n"),  
@@ -61,16 +60,10 @@ printApiBooks([Book|Tail], Option):-
     writeln(Book.subject),
     NextOption is Option + 1,
     printApiBooks(Tail, NextOption).
-=======
-deleteBook([Book|_], Index):-
-    encontraeElem(Index, [Book|_], Element),
-    controllers_books:deleteBook(Element),
-    writeln(Element).
 
-% Encontra o elemento de uma lista a partir do índice
-encontraeElem(0, [Book|_], Book):- !.
-encontraeElem(Index, [_|Book], Element):- X is Index - 1, encontraeElem(X, Book, Element).
->>>>>>> Stashed changes
+deleteBook(Books, Index):-
+    nth1(Index, Books, ResponseBook),
+    controllers_books:deleteBook(ResponseBook.title).
 
 suggestionBooks:-
     %Fazer a parte lógica
