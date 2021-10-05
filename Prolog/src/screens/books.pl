@@ -6,6 +6,7 @@
 
 :- use_module("./src/utils/files.pl").
 :- use_module("./src/utils/books.pl").
+:- use_module("./src/utils/bookSuggestion.pl").
 :- use_module("./src/utils/screens.pl").
 :- use_module("./src/utils/folders.pl").
 
@@ -66,7 +67,7 @@ screen('book_suggestion'):-
     utils_screens:cls,
     write('\n=-=-=-=-=-=-=-=-=-=\nReading Suggestion\n=-=-=-=-=-=-=-=-=-=\n'),
     writeln('Based on your readings and ratings:\n'),
-    utils_books:suggestionBooks,
+    utils_bookSuggestion:suggestionBooks,
     utils_screens:waitInput.
 
 screen('filtered_books', Choice):-
