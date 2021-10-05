@@ -6,6 +6,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(http/json)).
 :- use_module(library(url)).
+:- use_module(library(uri)).
 
 requestSearchBook(BookTitle, Page, ApiBooks) :-
     Attributes = [ 
@@ -41,3 +42,19 @@ filterBookSubjects(OldBook, NewBook) :-
 isNormalizedSubject(Subject) :-
     utils_books:categories(AllCategories),
     not(member(Subject, AllCategories)).
+
+requestSearchSubject(BookSubject, Response) :-
+    uri_encoded(path, BookSubject, EncodedBookSubject),
+    atom_concat('/subjects/', EncodedBookSubject, SubjectEncoded),
+    atom_concat(SubjectEncoded, '.json', PathEncoded),
+    Attributes = [ 
+        protocol(http),
+        host('openlibrary.org'),
+        path(PathEncoded)
+    ],
+    parse_url(Url, Attributes),
+    setup_call_cleanup(
+        http_open(Url, In, [request_header('Accept'='application/json')]),
+        json_read_dict(In, Response),
+        close(In)
+    ).
