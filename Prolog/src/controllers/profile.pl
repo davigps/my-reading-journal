@@ -15,6 +15,5 @@ length_l(L+1, [_|T]) :- length_l(L,T).
 
 updateProfile(Profile):-
   utils_files:save_dict_to_json_file("./data/profile.json", _{
-  'currentGoal':'0',
   'currentTarget': Profile
 }).

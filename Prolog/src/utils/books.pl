@@ -1,9 +1,14 @@
-:- module(utils_books, [rateValidation/2, categories/1]).
+:- module(utils_books, [rateValidation/2, categories/1, checkLength/2]).
 :- encoding(utf8).
 
 :- use_module("./src/utils/books.pl").
 
 :- use_module("./src/controllers/books.pl").
+
+checkLength(Num, Books):-
+    Num >= 1,
+    length(Books, BooksSize),
+    Num =< BooksSize.
 
 rateValidation(Rate, NewRate):-
     (10 < Rate;Rate < 0),

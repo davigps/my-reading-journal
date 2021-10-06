@@ -31,11 +31,14 @@ searchBook(BookTitle, Page, ApiBooks) :-
     maplist(filterBookSubjects, Response.docs, ApiBooks).
 
 filterBookSubjects(OldBook, NewBook) :-
-    exclude(isNormalizedSubject, OldBook.subject, NewSubjects),
+    dict_keys(OldBook, Keys),
+    (member(subject, Keys) -> Subject = OldBook.subject; Subject = ["Other"]),
+    (member(author_name, Keys) -> Authors = OldBook.author_name; Authors = ['Unknown']),
+    exclude(isNormalizedSubject, Subject, NewSubjects),
     writeln(NewSubjects),
     NewBook = _{
         'title': OldBook.title,
-        'author_name': OldBook.author_name,
+        'author_name': Authors,
         'subject': NewSubjects
     }.
 
