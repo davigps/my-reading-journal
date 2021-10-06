@@ -9,6 +9,7 @@
 :- use_module("./src/utils/bookSuggestion.pl").
 :- use_module("./src/utils/screens.pl").
 :- use_module("./src/utils/folders.pl").
+:- use_module("./src/utils/filter.pl").
 
 :- use_module("./src/controllers/profile.pl").
 :- use_module("./src/controllers/books.pl").
@@ -59,7 +60,8 @@ screen('list_books'):-
 screen('all_books'):-
     utils_screens:cls,
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
-    utils_books:displayBooks.
+    utils_filter:searchOption(FilteredBooks),
+    utils_books:printBooks(FilteredBooks, 1).
 
 screen('book_suggestion'):-
     utils_screens:cls,
