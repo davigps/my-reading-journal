@@ -39,7 +39,6 @@ searchBookOption(NumString, _, _, Books):-
     length(Books, BooksSize),
     Num =< BooksSize, 
     nth1(Num, Books, ChosenBook),
-    writeln('Opção escolhida'),
     enterDetailsDisplay(ChosenBook),
     utils_screens:waitInput.
 searchBookOption(_, Name, Page, _):-
