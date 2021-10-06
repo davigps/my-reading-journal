@@ -27,8 +27,6 @@ screen('edit_book'):-
     controllers_books:indexBooks(Books),
     utils_books:printBooks(Books, 1),
     writeln('\nChoose an option or digit "v" to go back:'),
-    %utils_books:displayBooks,
-    %writeln('\nChoose an option or digit "v" to go back:'),
     read_line_to_string(user_input, Choice),
     editOption(Choice, Books).
 
@@ -55,7 +53,7 @@ screen('list_books'):-
     utils_folders:printFolders(Folders, 1),
     writeln('\n Choice the folder or press \'a\' to list all books.'),
     read_line_to_string(user_input, Choice),
-    (Choice == "a" -> screen('all_books'); screen('filtered_books', Choice)),
+    filteredOption(Choice, Folders),
     utils_screens:waitInput.
 
 screen('all_books'):-
@@ -70,18 +68,27 @@ screen('book_suggestion'):-
     utils_bookSuggestion:suggestionBooks,
     utils_screens:waitInput.
 
-screen('filtered_books', Choice):-
+filteredOption("a", _):-
+    screen('all_books').
+
+filteredOption(Choice, Folders):-
     utils_screens:cls,
+    number_string(Num, Choice),
+    utils_books:checkLength(Num, Folders),
     utils_folders:getFolderBooks(Choice, Folder),
     write('\n=-=-=-=-=-=-=-=-=-=\nList book\n=-=-=-=-=-=-=-=-=-=\n'),
     utils_books:displayFilteredBooks(Folder).
+
+filteredOption(_, Folders):-
+    writeln('Invalid option! Try again.'),
+    read_line_to_string(user_input, NewChoice),
+    filteredOption(NewChoice, Folders).
 
 editOption("v", _):-
     main:screen('start').
 editOption(Choice, Books):-
     number_string(Num, Choice),
-    %Num >= 1,
-    %Num =< 5, % Trocar pelo length
+    utils_books:checkLength(Num, Books),
     writeln('Enter the new rate: '),
     read_line_to_string(user_input, NewRate),
     number_string(RateInt, NewRate),
@@ -101,31 +108,31 @@ editOption(Choice, Books):-
     controllers_books:updateBook(ResponseBook.title, NewBook),
     writeln('\nYour book has been successfully edited!'),
     utils_screens:waitInput.
-editOption(_, _):-
+editOption(_, Books):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
-    editOption(NewChoice).
+    editOption(NewChoice, Books).
 
 deleteOption("v", _):-
     main:screen('start').
 deleteOption(Choice, Books):-
     number_string(Num, Choice),
-    %Num >= 1,
-    %Num =< 5, % Trocar pelo length
+    utils_books:checkLength(Num, Books),
     utils_books:deleteBook(Books, Num),
     writeln('Your book has been successfully deleted!'),
     utils_screens:waitInput.
 
-deleteOption(_, _):-
+deleteOption(_, Books):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, NewChoice),
-    deleteOption(NewChoice, _).
+    deleteOption(NewChoice, Books).
 
 editGoalOption("v"):-
     main:screen('start').
 editGoalOption(Choice):-
     number_string(NumChoice, Choice),
     integer(NumChoice),
+    NumChoice >= 0,
     controllers_profile:updateProfile(Choice),
     writeln('Your goal has been successfully changed!').
 editGoalOption(_):-

@@ -35,16 +35,14 @@ searchBookOption("p", Name, Page, _):-
         screen('search_book', Name, NewPage)).
 searchBookOption(NumString, _, _, Books):-
     number_string(Num, NumString),
-    Num >= 1,
-    length(Books, BooksSize),
-    Num =< BooksSize, 
+    utils_books:checkLength(Num, Books), 
     nth1(Num, Books, ChosenBook),
     enterDetailsDisplay(ChosenBook),
     utils_screens:waitInput.
-searchBookOption(_, Name, Page, _):-
+searchBookOption(_, Name, Page, Books):-
     writeln('Invalid option! Try again.'),
     read_line_to_string(user_input, Choice),
-    searchBookOption(Choice, Name, Page).
+    searchBookOption(Choice, Name, Page, Books).
 
 enterDetailsDisplay(BookApi):-
     utils_books:getCurrentDateString(DateString),
