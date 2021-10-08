@@ -2,6 +2,7 @@
 :- encoding(utf8).
 
 :- use_module("./src/utils/books.pl").
+:- use_module("./src/utils/filter.pl").
 
 :- use_module("./src/controllers/books.pl").
 
@@ -25,7 +26,8 @@ displayBooks:-
 displayFilteredBooks(Folder):-
     controllers_books:indexBooks(Books),
     exclude(folderToFilter(Folder), Books, PrintBooks),
-    utils_books:printBooks(PrintBooks, 1).
+    utils_filter:searchOption(FilteredBooks, PrintBooks),
+    utils_books:printBooks(FilteredBooks, 1).
 
 folderToFilter(Folder, Book) :-
     Folder \= Book.folder.
